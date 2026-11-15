@@ -1,0 +1,29 @@
+{
+  "name": "@marqueaqui/adm-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "API do ADM: administra\u00e7\u00e3o global da plataforma (porta 3334)",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/security.test.ts tests/totp.test.ts tests/env.test.ts",
+    "admin:create": "tsx src/scripts/admin-create.ts",
+    "test:integration": "node --test tests/security.integration.test.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^10.0.1",
+    "@marqueaqui/database": "*",
+    "@marqueaqui/rate-limit": "*",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.44.0",
+    "fastify": "^5.1.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

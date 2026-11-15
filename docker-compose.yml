@@ -1,0 +1,25 @@
+# PostgreSQL local para desenvolvimento.
+# Credenciais EXCLUSIVAS de desenvolvimento. Nunca use estes valores fora da sua máquina.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: marqueaqui-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: marqueaqui
+      POSTGRES_PASSWORD: marqueaqui_dev
+      POSTGRES_DB: marqueaqui
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - marqueaqui_pgdata:/var/lib/postgresql/data
+      # Cria também o banco de testes (marqueaqui_test) na primeira inicialização.
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U marqueaqui -d marqueaqui"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  marqueaqui_pgdata:

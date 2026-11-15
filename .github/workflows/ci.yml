@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Tipos, testes e build
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: marqueaqui
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: marqueaqui_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U marqueaqui" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgres://marqueaqui:ci-only-password@localhost:5432/marqueaqui_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verificação de tipos
+        run: npm run typecheck
+      - name: Testes unitários
+        run: npm test
+      - name: Migrações no banco de teste
+        run: npm run db:migrate -w @marqueaqui/database
+        env:
+          DATABASE_URL: ${{ env.TEST_DATABASE_URL }}
+      - name: Testes de integração de segurança (APP)
+        run: npm run test:integration -w @marqueaqui/app-backend
+      - name: Testes de integração de segurança (ADM)
+        run: npm run test:integration -w @marqueaqui/adm-backend
+      - name: Build dos frontends
+        run: npm run build -w @marqueaqui/app-frontend -w @marqueaqui/adm-frontend
+
+  dependencies:
+    name: Auditoria de dependências
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Falha só em severidade alta/crítica em dependências de produção. Revise cada alerta:
+      # npm audit não prova segurança nem explorabilidade.
+      - run: npm audit --omit=dev --audit-level=high
+
+  secrets:
+    name: Detecção de segredos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sast:
+    name: Análise estática (CodeQL)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+      - uses: github/codeql-action/analyze@v3

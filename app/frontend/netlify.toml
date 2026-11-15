@@ -1,0 +1,39 @@
+# Deploy do APP na Netlify. No painel da Netlify defina "Base directory" = app/frontend.
+# A instalação usa os workspaces do repositório; confirme no primeiro deploy (não foi testado).
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# TROQUE a origem da API em connect-src abaixo pela URL real (VITE_API_URL). Sem isso o navegador bloqueia as chamadas.
+# style-src tem 'unsafe-inline' só para estilos: o Radix (react-remove-scroll, usado nos diálogos) injeta uma tag <style>.
+# Scripts continuam restritos a 'self' (sem inline, sem eval). Se testar e os diálogos funcionarem sem isso, remova.
+# Em desenvolvimento (npm run dev) estes cabeçalhos NÃO se aplicam; só valem no deploy.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.seu-dominio.com.br; manifest-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+
+# Arquivos com hash no nome podem ficar em cache por um ano; o HTML nunca.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# SPA: qualquer rota cai no index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

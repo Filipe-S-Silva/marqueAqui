@@ -1,0 +1,35 @@
+{
+  "name": "@marqueaqui/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Schema Drizzle, cliente PostgreSQL, regras de domínio puras e seed compartilhados pelas duas APIs",
+  "exports": {
+    ".": "./src/index.ts",
+    "./datetime": "./src/domain/datetime.ts",
+    "./availability": "./src/domain/availability.ts",
+    "./password": "./src/password.ts",
+    "./schema": "./src/schema.ts"
+  },
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/migrate.ts",
+    "db:seed": "tsx src/seed.ts",
+    "db:reset": "tsx src/reset.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/domain.test.ts tests/pepper.test.ts"
+  },
+  "dependencies": {
+    "argon2": "^0.41.1",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.44.0",
+    "drizzle-seed": "^0.3.1",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "drizzle-kit": "^0.31.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

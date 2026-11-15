@@ -1,0 +1,19 @@
+{
+  "name": "@marqueaqui/rate-limit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Limitador de taxa compartilhado pelas duas APIs: memória (padrão) ou Redis (REDIS_URL)",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/memory.test.ts"
+  },
+  "dependencies": {
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}

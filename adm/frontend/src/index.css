@@ -1,0 +1,177 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tokens no padrão shadcn/ui. Claro: azul-claro, branco, vermelho. Escuro: azul-escuro, preto, vermelho. */
+:root {
+  --background: #eef5ff;
+  --foreground: #0f1b33;
+  --card: #ffffff;
+  --card-foreground: #0f1b33;
+  --popover: #ffffff;
+  --popover-foreground: #0f1b33;
+  --primary: #c8243a;
+  --primary-foreground: #ffffff;
+  --secondary: #dbe9ff;
+  --secondary-foreground: #14305c;
+  --muted: #e4edfb;
+  --muted-foreground: #3f4e68;
+  --accent: #cfe1ff;
+  --accent-foreground: #0f1b33;
+  --destructive: #b3202f;
+  --destructive-foreground: #ffffff;
+  --success: #17794a;
+  --warning: #9a6200;
+  --border: #cbd9ef;
+  --input: #b9cae4;
+  --ring: #2563c9;
+  --radius: 1rem;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --shadow-tint: 15 40 90;
+}
+
+.dark {
+  --background: #050a14;
+  --foreground: #e8eefb;
+  --card: #0b1426;
+  --card-foreground: #e8eefb;
+  --popover: #0b1426;
+  --popover-foreground: #e8eefb;
+  --primary: #ef4a5a;
+  --primary-foreground: #1a0407;
+  --secondary: #12203d;
+  --secondary-foreground: #cfe0ff;
+  --muted: #0f1a30;
+  --muted-foreground: #b4c1d9;
+  --accent: #172a4f;
+  --accent-foreground: #e8eefb;
+  --destructive: #f0566a;
+  --destructive-foreground: #1a0407;
+  --success: #4cc38a;
+  --warning: #e8b04a;
+  --border: #1c2b4a;
+  --input: #273a61;
+  --ring: #6ea0ff;
+  --shadow-tint: 0 0 0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 6px);
+  --radius-sm: calc(var(--radius) - 10px);
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  --shadow-card: 0 1px 2px rgb(var(--shadow-tint) / 0.06), 0 4px 16px -6px rgb(var(--shadow-tint) / 0.12);
+  --shadow-lift: 0 2px 4px rgb(var(--shadow-tint) / 0.06), 0 16px 32px -12px rgb(var(--shadow-tint) / 0.22);
+  --shadow-float: 0 4px 8px rgb(var(--shadow-tint) / 0.08), 0 28px 56px -16px rgb(var(--shadow-tint) / 0.35);
+}
+
+@layer base {
+  * { border-color: var(--border); }
+  /* Base 17px (antes 16px): todo texto em rem cresce ~6%, e o texto secundário ganhou contraste */
+  html { scroll-behavior: smooth; font-size: 106.25%; }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
+}
+
+@layer utilities {
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Listra de barbeiro: assinatura visual do produto. Usada em faixas finas, nunca em áreas de leitura. */
+.pole {
+  background-image: repeating-linear-gradient(135deg, var(--primary) 0 8px, #fff 8px 16px, var(--ring) 16px 24px, #fff 24px 32px);
+  background-size: 45.25px 45.25px;
+}
+.dark .pole {
+  background-image: repeating-linear-gradient(135deg, var(--primary) 0 8px, var(--card) 8px 16px, var(--ring) 16px 24px, var(--card) 24px 32px);
+}
+.pole-move { animation: pole-slide 1.2s linear infinite; }
+@keyframes pole-slide { to { background-position: 45.25px 0; } }
+
+@keyframes shimmer { to { background-position: -200% 0; } }
+.skeleton {
+  background: linear-gradient(100deg, var(--muted) 30%, color-mix(in oklab, var(--muted) 55%, var(--card)) 50%, var(--muted) 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Diálogos: entrada/saída guiadas por data-state do Radix */
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes dlg-in { from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); } }
+@keyframes dlg-out { to { opacity: 0; transform: translate(-50%, -49%) scale(0.97); } }
+.dlg-overlay[data-state='open'] { animation: fade-in 180ms var(--ease-out); }
+.dlg-overlay[data-state='closed'] { animation: fade-out 140ms var(--ease-out) forwards; }
+.dlg-content[data-state='open'] { animation: dlg-in 220ms var(--ease-out); }
+.dlg-content[data-state='closed'] { animation: dlg-out 140ms var(--ease-out) forwards; }
+
+/* Marca de confirmação desenhada */
+@keyframes draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
+.check-draw { stroke-dasharray: 24; animation: draw 420ms 160ms var(--ease-out) both; }
+@keyframes ring-pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.ring-pop { animation: ring-pop 320ms var(--ease-out) both; }
+
+/* Hover só em ponteiro preciso */
+@media (hover: hover) and (pointer: fine) {
+  .lift { transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), border-color 200ms; }
+  .lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); border-color: color-mix(in oklab, var(--primary) 45%, var(--border)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton, .pole-move { animation: none !important; }
+}
+
+/* Entrada curta de listas e páginas: acompanha a ação do usuário (navegar, filtrar, carregar dados) */
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+.rise { animation: rise 240ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 45ms); }
+
+
+@keyframes shake { 20%, 60% { transform: translateX(-4px); } 40%, 80% { transform: translateX(4px); } }
+.shake { animation: shake 280ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) { .skeleton, .pole-move { animation: none !important; } .shake { animation: none; } }

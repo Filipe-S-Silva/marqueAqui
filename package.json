@@ -1,0 +1,35 @@
+{
+  "name": "easyservice-cia-marqueaqui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "EasyService&Cia - MarqueAqui: plataforma SaaS de agendamento multiempresas",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*",
+    "app/*",
+    "adm/*"
+  ],
+  "scripts": {
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:generate": "npm run db:generate -w @marqueaqui/database",
+    "db:migrate": "npm run db:migrate -w @marqueaqui/database",
+    "db:seed": "npm run db:seed -w @marqueaqui/database",
+    "db:reset": "npm run db:reset -w @marqueaqui/database --",
+    "admin:create": "npm run admin:create -w @marqueaqui/adm-backend",
+    "users:sweep": "npm run users:sweep -w @marqueaqui/app-backend",
+    "dev": "node scripts/dev.mjs",
+    "dev:app-backend": "npm run dev -w @marqueaqui/app-backend",
+    "dev:app": "npm run dev @marqueaqui/app-backend && @marqueaqui/app-frontend",
+    "dev:app-frontend": "npm run dev -w @marqueaqui/app-frontend",
+    "dev:adm-backend": "npm run dev -w @marqueaqui/adm-backend",
+    "dev:adm-frontend": "npm run dev -w @marqueaqui/adm-frontend",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "doctor": "node scripts/doctor.mjs"
+  }
+}
