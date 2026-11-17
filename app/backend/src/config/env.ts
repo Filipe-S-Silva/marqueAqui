@@ -24,7 +24,7 @@ const schema = z
     DEFAULT_PASSWORD: z.string().min(8).default('easyService'),
     // Pepper de senha (IGUAL ao do ADM e do seed). Obrigatório em produção.
     PASSWORD_PEPPER: z.string().min(32, 'PASSWORD_PEPPER precisa ter pelo menos 32 caracteres.').optional(),
-    TRUST_PROXY: bool.default('false'),
+    TRUST_PROXY: bool.default(false),
     // Com REDIS_URL as duas APIs contam o limite de requisições no mesmo Redis; sem ela, em memória (por instância).
     REDIS_URL: z.string().regex(/^rediss?:\/\/\S+$/, 'REDIS_URL deve começar com redis:// ou rediss://.').optional(),
     // Segredo do Vercel Cron (enviado como "Authorization: Bearer ..."); sem ele a rota de manutenção fica desligada.

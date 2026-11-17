@@ -42,7 +42,7 @@ const registeredClient = z.object({
   type: z.literal('REGISTERED'),
   email: emailSchema,
   // Confirmação explícita de identidade exigida pelo spec 6.4
-  confirmed: z.literal(true, { errorMap: () => ({ message: 'Confirme que é este cliente.' }) }),
+  confirmed: z.literal(true, { error: 'Confirme que é este cliente.' }),
 });
 
 export const staffBookingBody = z.object({

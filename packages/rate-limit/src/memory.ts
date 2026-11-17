@@ -1,7 +1,7 @@
 // Limitador em memória, janela deslizante. Suficiente para UMA instância; com várias, use REDIS_URL.
-import type { RateLimiter, RateLimiterOptions, RateResult } from './types.ts';
+import type { RateLimiterOptions, RateResult, SyncRateLimiter } from './types.ts';
 
-export function createRateLimiter(options: RateLimiterOptions): RateLimiter {
+export function createRateLimiter(options: RateLimiterOptions): SyncRateLimiter {
   const { windowMs, max } = options;
   const now = options.now ?? (() => Date.now());
   const maxKeys = options.maxKeys ?? 50_000;

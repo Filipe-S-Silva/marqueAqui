@@ -15,6 +15,13 @@ export interface RateLimiter {
   clear(): void;
 }
 
+/** O limitador em memória responde na hora (sem Promise). */
+export interface SyncRateLimiter extends RateLimiter {
+  hit(key: string): RateResult;
+  peek(key: string): RateResult;
+  reset(key: string): void;
+}
+
 export interface RateLimiterOptions {
   windowMs: number;
   max: number;
