@@ -132,7 +132,7 @@ export async function reviewedAppointmentIds(db: DbOrTx, ids: number[]): Promise
     .select({ id: shopReviews.appointmentId })
     .from(shopReviews)
     .where(inArray(shopReviews.appointmentId, ids));
-  return new Set(rows.map((r) => r.id));
+  return new Set(rows.map((r) => r.id!)); // inArray já exclui NULL
 }
 
 export async function listShopReviews(db: DbOrTx, shopId: number, page: number, pageSize: number) {
