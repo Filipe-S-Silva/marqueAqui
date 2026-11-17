@@ -29,18 +29,18 @@ export async function shopReviewsPublic(req: FastifyRequest, reply: FastifyReply
 }
 export async function availability(req: FastifyRequest, reply: FastifyReply) {
   const { shopId } = parse(s.shopIdParam, req.params);
-  const q = parse(s.availabilityQuery, req.query);
-  return ok(reply, await svc.availability(ctxOf(req), { shopId, ...q }));
+  const { serviceId, date } = parse(s.availabilityQuery, req.query);
+  return ok(reply, await svc.availability(ctxOf(req), { shopId, serviceId, date }));
 }
 
 /* cliente */
 export async function book(req: FastifyRequest, reply: FastifyReply) {
-  const body = parse(s.clientBookingBody, req.body);
-  return created(reply, await svc.bookAsClient(ctxOf(req), requireAuth(req), body), 'Agendamento confirmado.');
+  const { shopId, serviceId, barberId, date, startTime } = parse(s.clientBookingBody, req.body);
+  return created(reply, await svc.bookAsClient(ctxOf(req), requireAuth(req), { shopId, serviceId, barberId, date, startTime }), 'Agendamento confirmado.');
 }
 export async function myAppointments(req: FastifyRequest, reply: FastifyReply) {
-  const q = parse(s.myAppointmentsQuery, req.query);
-  return ok(reply, await svc.myAppointments(ctxOf(req), requireAuth(req), q));
+  const { status, page, pageSize } = parse(s.myAppointmentsQuery, req.query);
+  return ok(reply, await svc.myAppointments(ctxOf(req), requireAuth(req), { status, page, pageSize }));
 }
 export async function clientDashboard(req: FastifyRequest, reply: FastifyReply) {
   return ok(reply, await svc.clientDashboard(ctxOf(req), requireAuth(req)));

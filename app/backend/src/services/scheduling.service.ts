@@ -198,7 +198,7 @@ export async function bookSlot(ctx: AppContext, p: BookParams): Promise<Appointm
       appointments: appts.map(toInterval),
       now: nowInBusinessTz(),
     });
-    if (!check.ok) throw slotRejectionToError(check.reason);
+    if (check.ok === false) throw slotRejectionToError(check.reason);
 
     try {
       return await repo.insertAppointment(tx, {
@@ -512,7 +512,7 @@ export async function createBreak(ctx: AppContext, auth: AuthContext, input: z.i
   }
 
   const valid = validateWorkingIntervals([{ startTime: input.startTime, endTime: input.endTime }]);
-  if (!valid.ok) throw unprocessable(valid.message, 'INVALID_BREAK');
+  if (valid.ok === false) throw unprocessable(valid.message, 'INVALID_BREAK');
   const now = nowInBusinessTz();
   if (input.date < now.date) throw unprocessable('Não é possível criar pausas em datas passadas.', 'DATE_IN_PAST');
   if (input.date === now.date && timeToMinutes(input.endTime) <= now.minutes) {

@@ -97,7 +97,7 @@ export async function setWorkingHours(ctx: AppContext, auth: AuthContext, barber
   const rows: Array<{ weekday: number; startTime: string; endTime: string }> = [];
   for (const [weekday, list] of byDay) {
     const v = validateWorkingIntervals(list);
-    if (!v.ok) throw unprocessable(v.message, 'INVALID_WORKING_HOURS');
+    if (v.ok === false) throw unprocessable(v.message, 'INVALID_WORKING_HOURS');
     for (const it of v.sorted) rows.push({ weekday, ...it });
   }
   // Mesma trava das reservas: a grade não muda no meio de uma criação de agendamento
@@ -173,7 +173,7 @@ export async function listServices(ctx: AppContext, auth: AuthContext) {
 }
 
 export async function createService(ctx: AppContext, auth: AuthContext, input: z.infer<typeof m.createServiceBody>) {
-  const row = await repo.insertService(ctx.db, { shopId: shopOf(auth), ...input });
+  const row = await repo.insertService(ctx.db, { shopId: shopOf(auth), name: input.name, description: input.description, durationMinutes: input.durationMinutes, priceCents: input.priceCents });
   await writeAudit(ctx.db, { actorType: 'USER', actorId: auth.userId, action: 'service.create', entityType: 'service', entityId: row.id });
   return serviceView(row);
 }
