@@ -8,8 +8,7 @@
   "functions": {
     "api/handler.mjs": {
       "maxDuration": 30,
-      "memory": 1024,
-      "includeFiles": "src/**"
+      "includeFiles": "{src/**,../../packages/*/package.json,../../packages/*/src/**,../../node_modules/**}"
     }
   },
   "crons": [{ "path": "/internal/maintenance", "schedule": "0 6 * * *" }]
