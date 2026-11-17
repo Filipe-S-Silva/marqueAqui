@@ -1,9 +1,9 @@
-# Deploy do ADM na Netlify. No painel da Netlify defina "Base directory" = adm/frontend.
-# A instalação usa os workspaces do repositório; confirme no primeiro deploy (não foi testado).
+# Deploy do ADM na Netlify (monorepo): Base directory = raiz do repositório, Package directory = adm/frontend.
+# Os caminhos abaixo são relativos à raiz; o comando compila só este workspace.
 
 [build]
-  command = "npm run build"
-  publish = "dist"
+  command = "npm run build -w @marqueaqui/adm-frontend"
+  publish = "adm/frontend/dist"
 
 # TROQUE a origem da API em connect-src abaixo pela URL real (VITE_ADM_API_URL). Sem isso o navegador bloqueia as chamadas.
 # style-src tem 'unsafe-inline' só para estilos: o Radix (react-remove-scroll, usado nos diálogos) injeta uma tag <style>.
