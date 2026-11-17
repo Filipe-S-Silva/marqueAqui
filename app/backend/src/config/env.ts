@@ -27,6 +27,8 @@ const schema = z
     TRUST_PROXY: bool.default('false'),
     // Com REDIS_URL as duas APIs contam o limite de requisições no mesmo Redis; sem ela, em memória (por instância).
     REDIS_URL: z.string().regex(/^rediss?:\/\/\S+$/, 'REDIS_URL deve começar com redis:// ou rediss://.').optional(),
+    // Segredo do Vercel Cron (enviado como "Authorization: Bearer ..."); sem ele a rota de manutenção fica desligada.
+    CRON_SECRET: z.string().min(16, 'CRON_SECRET precisa ter pelo menos 16 caracteres.').optional(),
     LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   })
   .superRefine((env, ctx) => {
@@ -81,6 +83,7 @@ export interface Env {
   TRUST_PROXY: boolean;
   LOG_LEVEL: 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace' | 'silent';
   REDIS_URL: string | undefined;
+  CRON_SECRET: string | undefined;
   isProduction: boolean;
 }
 
@@ -109,6 +112,7 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): Env {
     TRUST_PROXY: e.TRUST_PROXY,
     LOG_LEVEL: e.LOG_LEVEL,
     REDIS_URL: e.REDIS_URL,
+    CRON_SECRET: e.CRON_SECRET,
     isProduction: e.NODE_ENV === 'production',
   };
 }

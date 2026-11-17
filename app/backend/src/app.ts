@@ -8,6 +8,8 @@ import { photoRoutes } from './routes/photo.routes.ts';
 import { supportRoutes } from './routes/support.routes.ts';
 import { authRoutes } from './routes/auth.routes.ts';
 import { clientRoutes, notificationRoutes, publicRoutes, staffRoutes } from './routes/scheduling.routes.ts';
+import { sweepInactiveUsers } from './jobs/inactivity.ts';
+import { purgeOldAppointments } from './jobs/retention.ts';
 import type { AppContext, Limiters } from './types/app-context.ts';
 import { createMemoryStore, type RateStore } from './utils/rate-limit.ts';
 
@@ -46,6 +48,11 @@ export async function buildApp(base: BuildContext, opts: { logger?: boolean } = 
   await registerSecurity(app);
 
   app.get('/health', async () => ({ status: 'ok' }));
+  // Substitui os setInterval do server.ts no serverless: o Vercel Cron chama uma vez por dia.
+  app.get('/internal/maintenance', async (req, reply) => {
+    if (!env.CRON_SECRET || req.headers.authorization !== `Bearer ${env.CRON_SECRET}`) return reply.code(404).send();
+    return { deactivated: await sweepInactiveUsers(app.ctx), purged: await purgeOldAppointments(app.ctx) };
+  });
   await app.register(authRoutes, { prefix: '/auth' });
   await app.register(publicRoutes);
   await app.register(clientRoutes);

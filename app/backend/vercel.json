@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install",
+  "buildCommand": "echo build",
+  "outputDirectory": "public",
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/handler" }],
+  "functions": {
+    "api/handler.mjs": {
+      "maxDuration": 30,
+      "memory": 1024,
+      "includeFiles": "src/**"
+    }
+  },
+  "crons": [{ "path": "/internal/maintenance", "schedule": "0 6 * * *" }]
+}
