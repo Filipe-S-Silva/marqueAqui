@@ -18,7 +18,8 @@ export async function openTicket(req: FastifyRequest, reply: FastifyReply) {
   return created(reply, await svc.openTicket(c(req), requireAuth(req), parse(s.ticketCreateBody, req.body)), 'Chamado aberto.');
 }
 export async function myTickets(req: FastifyRequest, reply: FastifyReply) {
-  return ok(reply, await svc.myTickets(c(req), requireAuth(req), parse(s.pageQuery, req.query)));
+  const { page, pageSize } = parse(s.pageQuery, req.query);
+  return ok(reply, await svc.myTickets(c(req), requireAuth(req), { page, pageSize }));
 }
 export async function myTicket(req: FastifyRequest, reply: FastifyReply) {
   const { id } = parse(idParam, req.params);
@@ -39,7 +40,8 @@ export async function reviewAppointment(req: FastifyRequest, reply: FastifyReply
   return created(reply, await svc.reviewAppointment(c(req), requireAuth(req), id, parse(s.reviewBody, req.body)), 'Avaliação enviada. Obrigado!');
 }
 export async function shopReviews(req: FastifyRequest, reply: FastifyReply) {
-  return ok(reply, await svc.shopReviews(c(req), requireAuth(req), parse(s.pageQuery, req.query)));
+  const { page, pageSize } = parse(s.pageQuery, req.query);
+  return ok(reply, await svc.shopReviews(c(req), requireAuth(req), { page, pageSize }));
 }
 export async function replyReview(req: FastifyRequest, reply: FastifyReply) {
   const { id } = parse(idParam, req.params);
