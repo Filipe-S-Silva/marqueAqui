@@ -34,7 +34,7 @@ export function ReportPage() {
 
   const max = Math.max(1, ...(r.data?.perDay.map((d) => d.count) ?? [1]));
   return (
-    <div className="grid gap-5 print:gap-3">
+    <div className="grid grid-cols-1 gap-5 print:gap-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-extrabold">Relatório mensal</h1>
         <div className="flex flex-wrap items-center gap-2 print:hidden">
@@ -45,9 +45,9 @@ export function ReportPage() {
       </div>
       {r.error ? <ErrorState message={r.error} onRetry={r.reload} /> : r.loading || !r.data ? <PageLoading /> : (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Kpi icon={CalendarCheck} label="Confirmados / Concluídos" value={`${r.data.byStatus.CONFIRMED} / ${r.data.byStatus.COMPLETED}`} />
-            <Kpi icon={Ban} label={`Cancelados · taxa ${r.data.cancellationRate}%`} value={r.data.byStatus.CANCELLED} />
+            <Kpi icon={Ban} label={`Cancelados · taxa ${r.data.cancellationRate.toLocaleString('pt-BR')}%`} value={r.data.byStatus.CANCELLED} />
             <Kpi icon={Users} label="Clientes únicos" value={r.data.uniqueClients} />
             <Kpi icon={DollarSign} label="Receita realizada" value={brl(r.data.revenueRealized)} />
             <Kpi icon={TrendingUp} label="Receita prevista" value={brl(r.data.revenueForecast)} />
@@ -59,9 +59,11 @@ export function ReportPage() {
               {!r.data.perDay.length ? <p className="text-sm text-muted-foreground">Sem agendamentos no período.</p> : (
                 <div className="flex h-40 items-end gap-1 overflow-x-auto" role="img" aria-label="Gráfico de barras de agendamentos por dia">
                   {r.data.perDay.map((d) => (
-                    <div key={d.date} className="flex min-w-5 flex-1 flex-col items-center justify-end gap-1" title={`${d.date}: ${d.count}`}>
+                    <div key={d.date} className="flex h-full min-w-5 flex-1 flex-col items-center gap-1" title={`${d.date}: ${d.count}`}>
                       <span className="tnum text-xs text-muted-foreground">{d.count}</span>
-                      <div className="w-full rounded-t bg-primary" style={{ height: `${(d.count / max) * 100}%`, minHeight: 4 }} />
+                      <div className="flex w-full flex-1 items-end">
+                        <div className="w-full rounded-t bg-primary" style={{ height: `${(d.count / max) * 100}%`, minHeight: 4 }} />
+                      </div>
                       <span className="tnum text-xs text-muted-foreground">{d.date.slice(8)}</span>
                     </div>
                   ))}
@@ -69,7 +71,7 @@ export function ReportPage() {
               )}
             </CardContent>
           </Card>
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <RankTable title="Por profissional" rows={r.data.byProfessional} />
             <RankTable title="Por serviço" rows={r.data.byService} />
           </div>

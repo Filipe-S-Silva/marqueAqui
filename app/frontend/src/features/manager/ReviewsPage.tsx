@@ -43,7 +43,7 @@ export function ReviewsPage() {
         <ul className="grid gap-1.5" aria-label="Distribuição das notas">
           {[5, 4, 3, 2, 1].map((n) => (
             <li key={n} className="flex items-center gap-3 text-sm">
-              <span className="w-12 shrink-0">{n} {n === 1 ? 'estrela' : 'estrelas'}</span>
+              <span className="w-20 shrink-0 whitespace-nowrap">{n} {n === 1 ? 'estrela' : 'estrelas'}</span>
               <span className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
                 <span className="block h-full rounded-full bg-warning" style={{ width: `${summary.total ? (count(n) / summary.total) * 100 : 0}%` }} />
               </span>
