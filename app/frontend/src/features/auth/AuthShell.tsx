@@ -9,14 +9,17 @@ import { ApiError } from '@/lib/api';
 
 export function AuthShell({ title, subtitle, children, footer, hideBack }: { title: string; subtitle?: string; children: ReactNode; footer?: ReactNode; hideBack?: boolean }) {
   return (
-    <div className="grid min-h-screen place-items-center p-4">
-      {!hideBack && (
-        <Button asChild variant="ghost" size="sm" className="absolute left-3 top-3">
-          <Link to="/"><ArrowLeft className="size-4" aria-hidden /> Voltar ao início</Link>
-        </Button>
-      )}
-      <div className="absolute right-3 top-3"><ThemeToggle /></div>
-      <div className="w-full max-w-md">
+    // Barra superior no fluxo (não absoluta): no celular o "Voltar ao início" não sobrepõe mais o logo
+    <div className="flex min-h-screen flex-col p-4">
+      <div className="flex items-center justify-between">
+        {!hideBack ? (
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/"><ArrowLeft className="size-4" aria-hidden /> Voltar ao início</Link>
+          </Button>
+        ) : <span />}
+        <ThemeToggle />
+      </div>
+      <div className="mx-auto my-auto w-full max-w-md py-6">
         <Link to="/" className="mb-6 flex justify-center text-xl"><BrandMark /></Link>
         <Card>
           <CardHeader>

@@ -1,5 +1,6 @@
+import * as D from '@radix-ui/react-dialog';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { CalendarCheck, Check, Clock, ShieldCheck, Smartphone, Store, TrendingUp, Users } from 'lucide-react';
+import { CalendarCheck, Check, Clock, Menu, ShieldCheck, Smartphone, Store, TrendingUp, Users, X } from 'lucide-react';
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react';
 import { Link } from 'react-router';
 import { BrandMark, ShopAvatar } from '@/components/common/Logo';
@@ -237,6 +238,37 @@ function PartnerForm() {
   );
 }
 
+/** Menu lateral do celular: as ações do cabeçalho que não cabem em telas pequenas. */
+function MobileMenu() {
+  return (
+    <D.Root>
+      <D.Trigger asChild>
+        <Button variant="ghost" size="icon" className="sm:hidden" aria-label="Abrir menu"><Menu className="size-5" /></Button>
+      </D.Trigger>
+      <D.Portal>
+        <D.Overlay className="dlg-overlay fixed inset-0 z-50 bg-[#071039]/60 backdrop-blur-sm dark:bg-black/70" />
+        <D.Content className="sheet fixed inset-y-0 right-0 z-50 flex w-72 max-w-[85vw] flex-col gap-6 border-l bg-card p-5 shadow-float">
+          <div className="flex items-center justify-between">
+            <D.Title asChild><span className="text-base"><BrandMark /></span></D.Title>
+            <D.Close asChild><Button variant="ghost" size="icon" aria-label="Fechar menu"><X className="size-5" /></Button></D.Close>
+          </div>
+          <D.Description className="sr-only">Acesso à conta e seções da página</D.Description>
+          <nav aria-label="Conta" className="grid gap-2">
+            <D.Close asChild><Button asChild size="lg"><Link to="/register">Criar conta</Link></Button></D.Close>
+            <D.Close asChild><Button asChild size="lg" variant="outline"><Link to="/login">Entrar</Link></Button></D.Close>
+            <D.Close asChild><Button asChild size="lg" variant="ghost"><Link to="/parceiro/login">Sou parceiro</Link></Button></D.Close>
+          </nav>
+          <nav aria-label="Seções" className="grid gap-1 border-t pt-4 text-sm font-medium">
+            {[['#como-funciona', 'Como funciona'], ['#beneficios', 'Benefícios'], ['#seja-parceiro', 'Seja parceiro']].map(([href, label]) => (
+              <D.Close key={href} asChild><a href={href} className="rounded-md px-3 py-2 transition-colors hover:bg-accent">{label}</a></D.Close>
+            ))}
+          </nav>
+        </D.Content>
+      </D.Portal>
+    </D.Root>
+  );
+}
+
 export function LandingPage() {
   return (
     <div>
@@ -252,7 +284,8 @@ export function LandingPage() {
             <ThemeToggle />
             <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link to="/parceiro/login">Sou parceiro</Link></Button>
             <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link to="/login">Entrar</Link></Button>
-            <Button asChild size="sm"><Link to="/register">Criar conta</Link></Button>
+            <Button asChild size="sm" className="hidden sm:inline-flex"><Link to="/register">Criar conta</Link></Button>
+            <MobileMenu />
           </div>
         </div>
       </header>

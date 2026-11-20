@@ -89,15 +89,35 @@
         "displayName": "Âmbar Aviso",
         "canonical": "#b45309"
       },
-      "noite-profunda": {
-        "role": "neutral",
-        "displayName": "Noite Profunda",
-        "canonical": "#050b2c"
-      },
       "moldura-noite": {
         "role": "neutral",
         "displayName": "Moldura Noite",
-        "canonical": "#161d38"
+        "canonical": "#1c1c1c"
+      },
+      "jet-black": {
+        "role": "neutral",
+        "displayName": "Jet Black",
+        "canonical": "#0d0d0d"
+      },
+      "soft-white": {
+        "role": "neutral",
+        "displayName": "Soft White",
+        "canonical": "#fafafa"
+      },
+      "bold-blue": {
+        "role": "secondary",
+        "displayName": "Bold Blue",
+        "canonical": "#1c22a8"
+      },
+      "light-blue": {
+        "role": "primary",
+        "displayName": "Light Blue",
+        "canonical": "#4263e3"
+      },
+      "carvao": {
+        "role": "neutral",
+        "displayName": "Carvão",
+        "canonical": "#161616"
       }
     },
     "typographyMeta": {

@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Tokens no padrão shadcn/ui. Paleta ultramarino: #071039 #0F2270 #1A3BB0 #2E5DE6 #6E92F2 #AFC5F8 #E6EDFD. */
+/* Tokens no padrão shadcn/ui. Claro: paleta ultramarino (#071039…#E6EDFD). Escuro: Jet Black #0D0D0D, Soft White #FAFAFA, Bold Blue #1C22A8, Light Blue #4263E3. */
 :root {
   --background: #e6edfd;
   --foreground: #071039;
@@ -42,36 +42,36 @@
 }
 
 .dark {
-  --background: #050b2c;
-  --foreground: #e6edfd;
-  --card: #0b1850;
-  --card-foreground: #e6edfd;
-  --popover: #0b1850;
-  --popover-foreground: #e6edfd;
-  --primary: #6e92f2;
-  --primary-foreground: #071039;
-  --secondary: #0f2270;
-  --secondary-foreground: #afc5f8;
-  --muted: #0f2270;
-  --muted-foreground: #afc5f8;
-  --accent: #15308e;
-  --accent-foreground: #e6edfd;
+  --background: #0d0d0d;
+  --foreground: #fafafa;
+  --card: #161616;
+  --card-foreground: #fafafa;
+  --popover: #161616;
+  --popover-foreground: #fafafa;
+  --primary: #4263e3;
+  --primary-foreground: #fafafa;
+  --secondary: #1c22a8;
+  --secondary-foreground: #fafafa;
+  --muted: #1f1f1f;
+  --muted-foreground: #a3a3a3;
+  --accent: #1d2150;
+  --accent-foreground: #fafafa;
   --destructive: #f87171;
   --destructive-foreground: #1f0707;
   --success: #4ade80;
   --warning: #fbbf24;
-  --highlight: #6e92f2;
-  --border: #1a2d74;
-  --input: #2a428f;
-  --ring: #afc5f8;
-  --ev-teal: #1a3bb0;
-  --ev-teal-fg: #e6edfd;
-  --ev-blue: #2e5de6;
-  --ev-blue-fg: #ffffff;
-  --ev-yellow: #6e92f2;
-  --ev-yellow-fg: #071039;
-  --ev-gray: #afc5f8;
-  --ev-gray-fg: #071039;
+  --highlight: #4263e3;
+  --border: #2a2a2a;
+  --input: #3a3a3a;
+  --ring: #7b93ee;
+  --ev-teal: #1c22a8;
+  --ev-teal-fg: #fafafa;
+  --ev-blue: #4263e3;
+  --ev-blue-fg: #fafafa;
+  --ev-yellow: #2a2a2a;
+  --ev-yellow-fg: #fafafa;
+  --ev-gray: #fafafa;
+  --ev-gray-fg: #0d0d0d;
   --shadow-tint: 0 0 0;
 }
 
@@ -123,6 +123,10 @@
   /* Evita uma palavra sozinha na última linha (comum no celular) */
   p { text-wrap: pretty; }
 }
+
+/* Escuro: o Light Blue (#4263e3) passa em botões com texto branco, mas como texto sobre o Jet Black fica em 3.8:1.
+   Em texto usamos um tom mais claro do mesmo azul (6.6:1). */
+.dark .text-primary, .dark .hover\:text-primary:hover { color: #8098ef; }
 
 @layer utilities {
   .tnum { font-variant-numeric: tabular-nums; }

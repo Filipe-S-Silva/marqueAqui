@@ -58,15 +58,26 @@ export function AgendaGrid({ agendas }: { agendas: BarberAgenda[] }) {
               </div>
             ))}
 
-            {a.appointments.filter((x) => x.status !== 'CANCELLED').map((x) => (
-              <div key={x.id} title={`${x.startTime}–${x.endTime} · ${x.clientName} · ${x.serviceName} · ${STATUS_LABEL[x.status]}`}
-                className={cn('absolute inset-x-1 overflow-hidden rounded-md px-2.5 py-1.5 text-xs shadow-card', tone(x.serviceName), x.status === 'NO_SHOW' && 'opacity-60')}
-                style={{ top: y(toMin(x.startTime)) + 2, height: y(toMin(x.endTime)) - y(toMin(x.startTime)) - 4 }}>
-                <p className="tnum">{x.startTime} - {x.endTime}{x.status !== 'CONFIRMED' && ` · ${STATUS_LABEL[x.status]}`}</p>
-                <p className="truncate text-sm font-bold">{x.clientName}</p>
-                <p className="truncate">{x.serviceName}</p>
-              </div>
-            ))}
+            {a.appointments.filter((x) => x.status !== 'CANCELLED').map((x) => {
+              // Bloco de 30 min tem ~40px: horário e cliente na mesma linha para o serviço caber embaixo
+              const short = toMin(x.endTime) - toMin(x.startTime) <= 30;
+              const status = x.status !== 'CONFIRMED' ? ` · ${STATUS_LABEL[x.status]}` : '';
+              return (
+                <div key={x.id} title={`${x.startTime}–${x.endTime} · ${x.clientName} · ${x.serviceName} · ${STATUS_LABEL[x.status]}`}
+                  className={cn('absolute inset-x-1 overflow-hidden rounded-md px-2.5 text-xs shadow-card', short ? 'py-1 leading-tight' : 'py-1.5', tone(x.serviceName), x.status === 'NO_SHOW' && 'opacity-60')}
+                  style={{ top: y(toMin(x.startTime)) + 2, height: y(toMin(x.endTime)) - y(toMin(x.startTime)) - 4 }}>
+                  {short ? (
+                    <p className="truncate"><span className="tnum">{x.startTime}</span> · <span className="font-bold">{x.clientName}</span>{status}</p>
+                  ) : (
+                    <>
+                      <p className="tnum">{x.startTime} - {x.endTime}{status}</p>
+                      <p className="truncate text-sm font-bold">{x.clientName}</p>
+                    </>
+                  )}
+                  <p className="truncate">{x.serviceName}</p>
+                </div>
+              );
+            })}
           </div>
         ))}
       </div>
