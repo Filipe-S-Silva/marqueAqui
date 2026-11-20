@@ -112,10 +112,10 @@ function HeroAgenda() {
                     {booked ? (
                       <div className="h-full rounded-md bg-secondary px-2.5 py-1.5 text-secondary-foreground">
                         <p className="truncate text-xs font-bold">{booked.who}</p>
-                        <p className="truncate text-[11px] opacity-75">{booked.what}</p>
+                        <p className="truncate text-xs">{booked.what}</p>
                       </div>
                     ) : (
-                      <div className="grid h-full place-items-center rounded-md border border-dashed text-[11px] text-muted-foreground">
+                      <div className="grid h-full place-items-center rounded-md border border-dashed text-xs text-muted-foreground">
                         {!mine && 'Livre'}
                       </div>
                     )}
@@ -125,7 +125,7 @@ function HeroAgenda() {
                           initial={{ opacity: 0, transform: 'scale(0.94)' }} animate={{ opacity: 1, transform: 'scale(1)' }}
                           exit={{ opacity: 0, transition: { duration: 0.18 } }} transition={{ duration: 0.22, ease: [0.23, 1, 0.32, 1] }}>
                           <p className="flex items-center gap-1 text-xs font-bold"><Check className="size-3.5" /> Você</p>
-                          <p className="truncate text-[11px] opacity-90">Corte + barba</p>
+                          <p className="truncate text-xs">Corte + barba</p>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -271,7 +271,7 @@ export function LandingPage() {
         <ol className="grid gap-6 sm:grid-cols-3">
           {STEPS.map(({ icon: Icon, title, text }, i) => (
             <li key={title} className="relative list-none border-t-2 border-primary pt-5">
-              <span className="font-display text-5xl font-extrabold leading-none text-primary/25" aria-hidden>{i + 1}</span>
+              <span className="font-display text-5xl font-extrabold leading-none text-muted-foreground tnum" aria-hidden>{i + 1}</span>
               <Icon className="mb-2 mt-3 size-5 text-primary" aria-hidden />
               <h3 className="font-bold">{title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{text}</p>

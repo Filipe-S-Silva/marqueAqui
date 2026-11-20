@@ -60,9 +60,9 @@ export function ReportPage() {
                 <div className="flex h-40 items-end gap-1 overflow-x-auto" role="img" aria-label="Gráfico de barras de agendamentos por dia">
                   {r.data.perDay.map((d) => (
                     <div key={d.date} className="flex min-w-5 flex-1 flex-col items-center justify-end gap-1" title={`${d.date}: ${d.count}`}>
-                      <span className="text-[10px] text-muted-foreground">{d.count}</span>
+                      <span className="tnum text-xs text-muted-foreground">{d.count}</span>
                       <div className="w-full rounded-t bg-primary" style={{ height: `${(d.count / max) * 100}%`, minHeight: 4 }} />
-                      <span className="text-[10px] text-muted-foreground">{d.date.slice(8)}</span>
+                      <span className="tnum text-xs text-muted-foreground">{d.date.slice(8)}</span>
                     </div>
                   ))}
                 </div>
