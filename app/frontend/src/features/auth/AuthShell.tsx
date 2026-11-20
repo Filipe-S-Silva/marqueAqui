@@ -9,7 +9,7 @@ import { ApiError } from '@/lib/api';
 
 export function AuthShell({ title, subtitle, children, footer, hideBack }: { title: string; subtitle?: string; children: ReactNode; footer?: ReactNode; hideBack?: boolean }) {
   return (
-    <div className="grid min-h-screen place-items-center bg-[radial-gradient(ellipse_at_top,var(--accent),transparent_60%)] p-4">
+    <div className="grid min-h-screen place-items-center p-4">
       {!hideBack && (
         <Button asChild variant="ghost" size="sm" className="absolute left-3 top-3">
           <Link to="/"><ArrowLeft className="size-4" aria-hidden /> Voltar ao início</Link>

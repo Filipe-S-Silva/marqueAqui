@@ -1,4 +1,6 @@
 import { BarChart3, CalendarCheck, CalendarDays, Home, Scissors, Users } from 'lucide-react';
+import { motion, useMotionTemplate, useReducedMotion, useSpring } from 'motion/react';
+import type { PointerEvent } from 'react';
 import { BrandMark } from '@/components/common/Logo';
 import { cn } from '@/lib/utils';
 
@@ -20,7 +22,7 @@ const y = (t: string) => ((toMin(t) - START) / 30) * ROW;
 
 function DesktopMockup() {
   return (
-    <div className="overflow-hidden rounded-xl border bg-card shadow-float">
+    <div className="overflow-hidden rounded-md bg-card">
       <div className="flex items-center gap-2 border-b bg-muted px-3 py-2">
         <span className="flex gap-1.5" aria-hidden>
           <span className="size-2.5 rounded-full bg-[#ef4444]/70" /><span className="size-2.5 rounded-full bg-highlight/80" /><span className="size-2.5 rounded-full bg-success/70" />
@@ -77,8 +79,8 @@ function DesktopMockup() {
 
 function PhoneMockup() {
   return (
-    <div className="w-44 rounded-[1.75rem] border-[5px] border-[#111827] bg-background dark:border-[#4b5563] p-2.5 shadow-float sm:w-52">
-      <div className="mx-auto mb-2.5 h-1.5 w-12 rounded-full bg-[#111827]/80 dark:bg-[#4b5563]" />
+    <div className="relative w-44 rounded-[1.75rem] border-[5px] border-[#0f172a] bg-background p-2.5 shadow-float sm:w-52 dark:border-[#475569]">
+      <div className="mx-auto mb-2.5 h-1.5 w-12 rounded-full bg-[#0f172a]/80 dark:bg-[#475569]" />
       <p className="font-display text-sm font-extrabold">Olá, Lucas!</p>
       <p className="text-xs text-muted-foreground">Seu próximo horário</p>
       <div className={cn('mt-2 rounded-lg p-2.5 text-xs shadow-card', TEAL)}>
@@ -97,14 +99,54 @@ function PhoneMockup() {
   );
 }
 
-export function ProductMockups() {
+/** Notebook: tela com moldura e a base deitada em perspectiva. */
+function Laptop() {
   return (
-    <div role="img" aria-label="Prévia do MarqueAqui: a agenda da equipe no computador e o agendamento do cliente no celular" className="relative pb-10 sm:pb-14">
-      {/* margem à direita: o celular sobrepõe só a borda do computador, sem esconder a última coluna */}
-      <div aria-hidden className="mr-16 sm:mr-28"><DesktopMockup /></div>
-      <div aria-hidden className="absolute bottom-0 right-0">
-        <PhoneMockup />
+    <div className="[transform-style:preserve-3d]">
+      <div className="rounded-t-2xl rounded-b-md border-[6px] border-b-[12px] border-[#0f172a] bg-[#0f172a] shadow-float dark:border-[#334155] dark:bg-[#334155]">
+        <DesktopMockup />
       </div>
+      <div className="-mx-[7%] h-5 origin-top rounded-b-2xl bg-gradient-to-b from-[#cbd5e1] to-[#94a3b8] shadow-float [transform:rotateX(70deg)] dark:from-[#475569] dark:to-[#1e293b]" />
+    </div>
+  );
+}
+
+/** Celular com espessura: a traseira fica alguns pixels atrás e aparece como a lateral do aparelho. */
+function Phone() {
+  return (
+    <div className="relative [transform-style:preserve-3d]">
+      <div className="absolute inset-0 rounded-[1.75rem] bg-[#0f172a] [transform:translateZ(-14px)] dark:bg-[#1e293b]" />
+      <PhoneMockup />
+    </div>
+  );
+}
+
+const SPRING = { stiffness: 120, damping: 18 };
+
+export function ProductMockups() {
+  const reduce = useReducedMotion();
+  const rx = useSpring(0, SPRING);
+  const ry = useSpring(0, SPRING);
+  const transform = useMotionTemplate`rotateX(${rx}deg) rotateY(${ry}deg)`;
+
+  // Inclina a cena seguindo o mouse; no toque e com redução de movimento fica parada
+  function move(e: PointerEvent<HTMLDivElement>) {
+    if (e.pointerType !== 'mouse' || reduce) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    ry.set(((e.clientX - r.left) / r.width - 0.5) * 12);
+    rx.set(-((e.clientY - r.top) / r.height - 0.5) * 8);
+  }
+
+  return (
+    <div role="img" aria-label="Prévia do MarqueAqui: a agenda da equipe no computador e o agendamento do cliente no celular"
+      className="relative pb-12 [perspective:1600px] sm:pb-16" onPointerMove={move} onPointerLeave={() => { rx.set(0); ry.set(0); }}>
+      <motion.div className="relative [transform-style:preserve-3d]" style={{ transform }}>
+        {/* margem à direita: o celular sobrepõe só a borda do notebook, sem esconder a última coluna */}
+        <div aria-hidden className="mr-16 [transform-style:preserve-3d] [transform:rotateY(-14deg)_rotateX(6deg)] sm:mr-28"><Laptop /></div>
+        <div aria-hidden className="absolute bottom-0 right-0 [transform-style:preserve-3d] [transform:translateZ(170px)_rotateY(-24deg)_rotateX(4deg)]">
+          <div className="float-y [transform-style:preserve-3d]"><Phone /></div>
+        </div>
+      </motion.div>
     </div>
   );
 }

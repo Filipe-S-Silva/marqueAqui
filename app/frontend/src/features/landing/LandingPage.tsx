@@ -8,6 +8,7 @@ import { Field } from '@/components/common/Field';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { LogoBurst } from './LogoBurst';
 import { ProductMockups } from './ProductMockups';
 
 /* ───────────── Agenda de exemplo: uma agenda de verdade se preenchendo ───────────── */
@@ -124,42 +125,26 @@ function HeroAgenda() {
   );
 }
 
-/* ───────────── Hero: a pergunta e o logo; depois o texto sai e entra o produto ───────────── */
+/* ───────────── Hero: o logo surge letra a letra e explode; depois entra o produto ───────────── */
 
 const EASE = [0.23, 1, 0.32, 1] as const;
-const INTRO_MS = 4000;
 
 function Hero() {
   const reduce = useReducedMotion();
   const [phase, setPhase] = useState<'intro' | 'product'>(reduce ? 'product' : 'intro');
-  useEffect(() => {
-    if (reduce) { setPhase('product'); return; }
-    const t = setTimeout(() => setPhase('product'), INTRO_MS);
-    return () => clearTimeout(t);
-  }, [reduce]);
-
-  const show = (delay: number, from: Record<string, string | number> = { opacity: 0, transform: 'translateY(12px)' }) =>
-    ({ initial: from, animate: { opacity: 1, transform: 'translateY(0px) scale(1)', filter: 'blur(0px)' }, transition: { duration: 0.7, ease: EASE, delay } });
+  useEffect(() => { if (reduce) setPhase('product'); }, [reduce]);
 
   return (
-    <section className="mx-auto flex min-h-[calc(100svh-3.5rem)] max-w-6xl items-center px-4 py-12">
+    <section className="mx-auto flex min-h-[calc(100svh-3.5rem)] max-w-6xl items-center overflow-x-clip px-4 py-12">
+      {/* overflow-x-clip: a perspectiva 3D dos mockups não pode criar rolagem lateral no celular */}
       <AnimatePresence mode="wait" initial={false}>
         {phase === 'intro' ? (
-          <motion.div key="intro" className="flex w-full flex-col items-center text-center"
-            exit={{ opacity: 0, filter: 'blur(8px)', transform: 'translateY(-16px)' }} transition={{ duration: 0.45, ease: EASE }}>
-            <motion.p className="max-w-4xl font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl" {...show(0.2)}>
-              Precisando ter o controle da sua agenda e do fluxo de caixa?
-            </motion.p>
-            <motion.p className="mt-10 text-lg font-semibold text-muted-foreground sm:text-xl" {...show(1.3)}>
-              Apresentamos o
-            </motion.p>
-            <motion.div className="mt-4" {...show(1.9, { opacity: 0, transform: 'scale(0.85)', filter: 'blur(10px)' })}>
-              <BrandMark className="text-4xl sm:text-7xl" />
-            </motion.div>
+          <motion.div key="intro" className="flex w-full justify-center" exit={{ opacity: 0 }} transition={{ duration: 0.15 }}>
+            <LogoBurst onDone={() => setPhase('product')} />
           </motion.div>
         ) : (
-          <motion.div key="product" className="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]"
-            initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
+          <motion.div key="product" className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]"
+            initial={reduce ? false : { opacity: 0, transform: 'scale(0.94)' }} animate={{ opacity: 1, transform: 'scale(1)' }} transition={{ duration: 0.5, ease: EASE }}>
             <motion.div className="flex flex-col items-center text-center lg:items-start lg:text-left"
               initial={reduce ? false : { opacity: 0, transform: 'translateY(12px)' }} animate={{ opacity: 1, transform: 'translateY(0px)' }} transition={{ duration: 0.6, ease: EASE }}>
               <h1 aria-label="MarqueAqui: controle da agenda e do fluxo de caixa"><BrandMark className="text-4xl sm:text-5xl" /></h1>

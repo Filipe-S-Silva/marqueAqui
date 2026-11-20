@@ -39,7 +39,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-[radial-gradient(ellipse_at_top,var(--accent),transparent_60%)] p-4">
+    <div className="grid min-h-screen place-items-center p-4">
       <div className="absolute right-3 top-3"><ThemeToggle /></div>
       <div className="w-full max-w-md">
         <div className="mb-6 flex justify-center text-xl"><Brand /></div>
