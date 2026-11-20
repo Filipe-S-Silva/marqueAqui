@@ -1,5 +1,6 @@
 // Cliente HTTP do ADM. O token vive em sessionStorage (spec 8.1); não há refresh: expirou (8 h), entra de novo.
-const BASE = (import.meta.env.VITE_ADM_API_URL as string | undefined) ?? 'http://localhost:3334';
+// Sem barra final: "…/" + "/auth" vira "//auth", que redireciona e quebra o preflight de CORS.
+const BASE = ((import.meta.env.VITE_ADM_API_URL as string | undefined) ?? 'http://localhost:3334').replace(/\/+$/, '');
 const KEY = 'mq-adm-token';
 
 export class ApiError extends Error {

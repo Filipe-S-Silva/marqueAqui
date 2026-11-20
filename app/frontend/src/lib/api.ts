@@ -1,5 +1,6 @@
 // Cliente HTTP. O access token vive só em memória; o refresh token é um cookie HttpOnly (nunca visível ao JS).
-const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3333';
+// Sem barra final: "…vercel.app/" + "/auth" vira "//auth", que redireciona e quebra o preflight de CORS.
+const BASE = ((import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:3333').replace(/\/+$/, '');
 
 export class ApiError extends Error {
   constructor(
