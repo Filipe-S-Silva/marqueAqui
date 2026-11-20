@@ -9,6 +9,8 @@ coverage/
 .env
 .env.*
 !.env.example
+# URL pública da API usada no build de produção (sem segredos)
+!app/frontend/.env.production
 
 # Artefatos locais
 *.tsbuildinfo
