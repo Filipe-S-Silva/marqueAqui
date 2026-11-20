@@ -30,7 +30,7 @@ function setRefreshCookie(req: FastifyRequest, reply: FastifyReply, result: Auth
       httpOnly: true,
       secure: env.COOKIE_SECURE,
       sameSite: 'Strict',
-      path: '/auth',
+      path: '/', // vale atrás do proxy da Netlify (/api/auth/...) e direto (/auth/...)
       maxAgeSeconds: (result.refreshExpiresAt.getTime() - Date.now()) / 1000,
     }),
   );
@@ -44,7 +44,7 @@ function clearRefreshCookie(req: FastifyRequest, reply: FastifyReply): void {
       httpOnly: true,
       secure: env.COOKIE_SECURE,
       sameSite: 'Strict',
-      path: '/auth',
+      path: '/', // vale atrás do proxy da Netlify (/api/auth/...) e direto (/auth/...)
       maxAgeSeconds: 0,
     }),
   );
