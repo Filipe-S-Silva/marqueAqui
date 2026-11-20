@@ -37,6 +37,18 @@
   [headers.values]
     Cache-Control = "no-cache"
 
+# Service worker e manifesto do PWA: sempre revalidados, para uma versão nova chegar logo a quem instalou
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Content-Type = "application/manifest+json"
+
 # API pelo mesmo domínio do site: o cookie de sessão (SameSite=Strict) só funciona assim,
 # porque o navegador não o envia de netlify.app para vercel.app. Precisa vir antes da regra da SPA.
 [[redirects]]
