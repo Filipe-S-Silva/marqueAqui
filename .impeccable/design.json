@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-20T00:00:00Z",
+  "title": "Design System: MarqueAqui",
+  "extensions": {
+    "colorMeta": {
+      "vermelho-marque": { "role": "primary", "displayName": "Vermelho Marque", "canonical": "#d62839", "tonalRamp": ["#3d0a10", "#6b111b", "#9c1a27", "#d62839", "#ef4a5a", "#f57f8a", "#fab5bc", "#fde6e8"] },
+      "vermelho-marque-noite": { "role": "primary", "displayName": "Vermelho Marque Noite", "canonical": "#ef4a5a" },
+      "vermelho-alerta": { "role": "error", "displayName": "Vermelho Alerta", "canonical": "#b3202f" },
+      "azul-manha": { "role": "neutral", "displayName": "Azul Manhã", "canonical": "#eef5ff", "tonalRamp": ["#050a14", "#0b1426", "#172a4f", "#3f4e68", "#b9cae4", "#cfe1ff", "#dbe9ff", "#eef5ff"] },
+      "azul-noite": { "role": "neutral", "displayName": "Azul Noite", "canonical": "#050a14" },
+      "tinta-noite": { "role": "neutral", "displayName": "Tinta Noite", "canonical": "#0f1b33" },
+      "papel": { "role": "neutral", "displayName": "Papel", "canonical": "#ffffff" },
+      "cartao-noite": { "role": "neutral", "displayName": "Cartão Noite", "canonical": "#0b1426" },
+      "azul-secundario": { "role": "neutral", "displayName": "Azul Secundário", "canonical": "#dbe9ff" },
+      "azul-apagado": { "role": "neutral", "displayName": "Azul Apagado", "canonical": "#e4edfb" },
+      "azul-destaque": { "role": "neutral", "displayName": "Azul Destaque", "canonical": "#cfe1ff" },
+      "texto-apagado": { "role": "neutral", "displayName": "Texto Apagado", "canonical": "#3f4e68" },
+      "borda": { "role": "neutral", "displayName": "Borda", "canonical": "#cbd9ef" },
+      "borda-campo": { "role": "neutral", "displayName": "Borda de Campo", "canonical": "#b9cae4" },
+      "azul-foco": { "role": "info", "displayName": "Azul Foco", "canonical": "#2563c9", "tonalRamp": ["#0b1d3d", "#123066", "#1a4796", "#2563c9", "#4d84e0", "#6ea0ff", "#a9c6ff", "#e3edff"] },
+      "verde-sucesso": { "role": "success", "displayName": "Verde Sucesso", "canonical": "#17794a" },
+      "ambar-aviso": { "role": "warning", "displayName": "Âmbar Aviso", "canonical": "#9a6200" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Só a marca no hero da landing (3.75rem no celular)." },
+      "headline": { "displayName": "Headline", "purpose": "Títulos de seção da landing e páginas de destaque." },
+      "title": { "displayName": "Title", "purpose": "Título de cada página dos portais." },
+      "body": { "displayName": "Body", "purpose": "Texto corrido, tabelas e descrições (0.875rem a 1rem)." },
+      "label": { "displayName": "Label", "purpose": "Rótulos de campos e itens de navegação." }
+    },
+    "shadows": [
+      { "name": "card", "value": "0 1px 2px rgb(15 40 90 / 0.06), 0 4px 16px -6px rgb(15 40 90 / 0.12)", "purpose": "Cartões, botão contornado e item ativo da navegação." },
+      { "name": "lift", "value": "0 2px 4px rgb(15 40 90 / 0.06), 0 16px 32px -12px rgb(15 40 90 / 0.22)", "purpose": "Cartões clicáveis sob o cursor." },
+      { "name": "float", "value": "0 4px 8px rgb(15 40 90 / 0.08), 0 28px 56px -16px rgb(15 40 90 / 0.35)", "purpose": "Diálogos." },
+      { "name": "primary-glow", "value": "inset 0 1px 0 rgb(255 255 255 / 0.22), 0 6px 14px -6px color-mix(in oklab, #d62839 70%, transparent)", "purpose": "Só o botão principal." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Curva padrão de entradas e respostas ao toque." },
+      { "name": "ease-in-out", "value": "cubic-bezier(0.77, 0, 0.175, 1)", "purpose": "Transições de ida e volta." },
+      { "name": "press", "value": "150ms", "purpose": "Resposta de botões (escala 0.97 ao clicar)." },
+      { "name": "rise", "value": "240ms, atraso de 45ms por item", "purpose": "Entrada de listas e páginas." },
+      { "name": "dialog", "value": "220ms entrada / 140ms saída", "purpose": "Diálogos e véu." },
+      { "name": "pole-slide", "value": "1.2s linear infinito", "purpose": "Listra de barbeiro deslizando; desligada com redução de movimento." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A única ação principal de cada área de decisão.",
+      "html": "<button class=\"ds-btn-primary\">Criar conta grátis</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px; padding: 0 16px; border: none; border-radius: 10px; background: #d62839; color: #fff; font: 600 0.875rem 'Instrument Sans', system-ui, sans-serif; box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 6px 14px -6px rgb(214 40 57 / 0.7); cursor: pointer; transition: transform 150ms cubic-bezier(0.23,1,0.32,1), filter 150ms; } .ds-btn-primary:hover { filter: brightness(1.1); } .ds-btn-primary:active { transform: scale(0.97); } .ds-btn-primary:focus-visible { outline: 2px solid #2563c9; outline-offset: 2px; }"
+    },
+    {
+      "name": "Botão contornado",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Ação alternativa ao lado do botão principal.",
+      "html": "<button class=\"ds-btn-outline\">Já tenho conta</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border: 1px solid #b9cae4; border-radius: 10px; background: #fff; color: #0f1b33; font: 600 0.875rem 'Instrument Sans', system-ui, sans-serif; box-shadow: 0 1px 2px rgb(15 40 90 / 0.06), 0 4px 16px -6px rgb(15 40 90 / 0.12); cursor: pointer; transition: transform 150ms cubic-bezier(0.23,1,0.32,1), background-color 150ms; } .ds-btn-outline:hover { background: #cfe1ff; } .ds-btn-outline:active { transform: scale(0.97); } .ds-btn-outline:focus-visible { outline: 2px solid #2563c9; outline-offset: 2px; }"
+    },
+    {
+      "name": "Botão secundário",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ação de apoio sem competir com o vermelho.",
+      "html": "<button class=\"ds-btn-secondary\">Ver horários</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border: none; border-radius: 10px; background: #dbe9ff; color: #14305c; font: 600 0.875rem 'Instrument Sans', system-ui, sans-serif; cursor: pointer; transition: transform 150ms cubic-bezier(0.23,1,0.32,1), background-color 150ms; } .ds-btn-secondary:hover { background: #cfe1ff; } .ds-btn-secondary:active { transform: scale(0.97); } .ds-btn-secondary:focus-visible { outline: 2px solid #2563c9; outline-offset: 2px; }"
+    },
+    {
+      "name": "Campo de texto",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo padrão de formulários.",
+      "html": "<label class=\"ds-field\"><span>E-mail</span><input class=\"ds-input\" placeholder=\"voce@email.com\" /></label>",
+      "css": ".ds-field { display: grid; gap: 6px; font: 500 0.875rem 'Instrument Sans', system-ui, sans-serif; color: #0f1b33; } .ds-input { width: 100%; height: 40px; padding: 0 12px; border: 1px solid #b9cae4; border-radius: 10px; background: #fff; color: #0f1b33; font: 400 0.875rem 'Instrument Sans', system-ui, sans-serif; transition: border-color 150ms; } .ds-input::placeholder { color: #3f4e68; } .ds-input:focus-visible { border-color: #2563c9; outline: 2px solid #2563c9; outline-offset: 2px; }"
+    },
+    {
+      "name": "Cartão",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Superfície padrão; sobe ao cursor quando é clicável.",
+      "html": "<div class=\"ds-card\"><h3>Barbearia Alfa</h3><p>Cortes clássicos e barba com toalha quente.</p></div>",
+      "css": ".ds-card { max-width: 320px; padding: 20px; border: 1px solid #cbd9ef; border-radius: 16px; background: #fff; color: #0f1b33; box-shadow: 0 1px 2px rgb(15 40 90 / 0.06), 0 4px 16px -6px rgb(15 40 90 / 0.12); transition: transform 200ms cubic-bezier(0.23,1,0.32,1), box-shadow 200ms, border-color 200ms; } .ds-card h3 { margin: 0 0 4px; font: 700 1rem 'Bricolage Grotesque', 'Instrument Sans', sans-serif; letter-spacing: -0.02em; } .ds-card p { margin: 0; font: 400 0.875rem 'Instrument Sans', sans-serif; color: #3f4e68; } .ds-card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgb(15 40 90 / 0.06), 0 16px 32px -12px rgb(15 40 90 / 0.22); border-color: #d9939c; }"
+    },
+    {
+      "name": "Selos de status",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Status do agendamento: confirmado, concluído, cancelado, falta.",
+      "html": "<span class=\"ds-badge ds-info\">Confirmado</span> <span class=\"ds-badge ds-success\">Concluído</span> <span class=\"ds-badge ds-danger\">Cancelado</span> <span class=\"ds-badge ds-warning\">Falta</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font: 600 0.75rem 'Instrument Sans', system-ui, sans-serif; } .ds-info { background: rgb(37 99 201 / 0.15); color: #2563c9; } .ds-success { background: rgb(23 121 74 / 0.15); color: #17794a; } .ds-danger { background: rgb(179 32 47 / 0.15); color: #b3202f; } .ds-warning { background: rgb(154 98 0 / 0.15); color: #9a6200; }"
+    },
+    {
+      "name": "Navegação lateral",
+      "kind": "nav",
+      "description": "Itens dos portais; o ativo ganha a pílula Vermelho Marque.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item ds-active\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M16 2v4M8 2v4M3 10h18\"/></svg>Agenda</a><a class=\"ds-nav-item\" href=\"#\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/></svg>Equipe</a></nav>",
+      "css": ".ds-nav { display: grid; gap: 4px; width: 220px; } .ds-nav-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: 10px; color: #0f1b33; text-decoration: none; font: 500 0.875rem 'Instrument Sans', system-ui, sans-serif; transition: background-color 150ms; } .ds-nav-item:hover { background: #cfe1ff; } .ds-nav-item.ds-active { background: #d62839; color: #fff; box-shadow: 0 1px 2px rgb(15 40 90 / 0.06), 0 4px 16px -6px rgb(15 40 90 / 0.12); } .ds-nav-item:focus-visible { outline: 2px solid #2563c9; outline-offset: 2px; }"
+    },
+    {
+      "name": "Listra de barbeiro",
+      "kind": "custom",
+      "description": "Assinatura da marca, sempre em faixas finas.",
+      "html": "<div class=\"ds-pole\"></div>",
+      "css": ".ds-pole { width: 320px; height: 6px; background-image: repeating-linear-gradient(135deg, #d62839 0 8px, #fff 8px 16px, #2563c9 16px 24px, #fff 24px 32px); background-size: 45.25px 45.25px; animation: ds-pole-slide 1.2s linear infinite; } @keyframes ds-pole-slide { to { background-position: 45.25px 0; } } @media (prefers-reduced-motion: reduce) { .ds-pole { animation: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "O Balcão Organizado",
+    "overview": "MarqueAqui é o balcão de atendimento que nunca perde um horário: limpo, direto, sem ruído, e ainda assim com o calor de um salão de bairro. A ordem vem primeiro: cada tela mostra o que a pessoa precisa decidir agora, com hierarquia feita de peso tipográfico e cor, não de enfeite. O calor aparece nos detalhes de atendimento: o vermelho da marca, a listra de barbeiro em faixas finas e componentes que respondem ao toque como um balcão bem cuidado responde a quem chega.\n\nO sistema serve a dois produtos com a mesma linguagem: o APP (landing, portais de cliente, profissional e gestor) e o ADM (painel interno). A densidade é confortável: base tipográfica de 17px, campos e botões de 40px de altura, cartões com respiro de 20px. Os dois temas, claro (Azul Manhã) e escuro (Azul Noite), são cidadãos de primeira classe; nenhuma tela é desenhada só para um deles.\n\nOs componentes são táteis, acolhedores, macios e confiantes: cantos generosos, sombras suaves tingidas de azul, um botão principal com brilho interno que cede levemente ao clique.",
+    "keyCharacteristics": [
+      "Ordem de balcão: uma decisão principal por tela, hierarquia por peso e cor.",
+      "Vermelho Marque como única voz de ação; azul como ambiente.",
+      "Listra de barbeiro como assinatura, sempre em faixas finas.",
+      "Cantos generosos (16px nos cartões) e sombras suaves tingidas de azul.",
+      "Movimento curto e com propósito, sempre desligado com redução de movimento."
+    ],
+    "rules": [
+      { "name": "The Uma Voz Rule", "body": "O Vermelho Marque é a única cor de ação. Se dois elementos vermelhos competem na mesma área, um deles está errado.", "section": "colors" },
+      { "name": "The Dois Climas Rule", "body": "Toda cor existe em par, manhã e noite. Nunca use um hex fixo de tema claro em uma tela: use o token, que já troca no escuro.", "section": "colors" },
+      { "name": "The Números Alinhados Rule", "body": "Horários, preços e contagens usam algarismos tabulares (`tnum`), para que as colunas da agenda e dos relatórios se alinhem.", "section": "typography" },
+      { "name": "The Sobe ao Toque Rule", "body": "Cartões clicáveis sobem 2px, ganham a sombra de Elevação e uma borda puxada para o vermelho sob o cursor. Isso só acontece com mouse preciso (`hover: hover`); no toque nada salta.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** usar os tokens de cor (`--primary`, `--card`, `--border`…) para que cada tela funcione nos dois temas.",
+      "**Do** manter um único botão Vermelho Marque por área de decisão; alternativas vão em Outline ou Ghost.",
+      "**Do** usar o tom do selo de status conforme o mapa: confirmado azul, concluído verde, cancelado vermelho, falta âmbar.",
+      "**Do** usar algarismos tabulares em horários, preços e contagens.",
+      "**Do** manter movimentos entre 150 e 320ms com a curva `cubic-bezier(0.23, 1, 0.32, 1)` e desligá-los com `prefers-reduced-motion`."
+    ],
+    "donts": [
+      "**Don't** usar a listra de barbeiro como fundo de área de leitura; ela só aparece em faixas finas.",
+      "**Don't** usar Vermelho Marque para erro ou ação destrutiva; isso é papel do Vermelho Alerta.",
+      "**Don't** usar sombra cinza neutra; as sombras são tingidas de azul (ou preto no escuro).",
+      "**Don't** aplicar efeito de hover que levanta elementos em telas de toque."
+    ]
+  }
+}
