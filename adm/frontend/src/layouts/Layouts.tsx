@@ -88,7 +88,7 @@ export function AdminLayout() {
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-[16rem_1fr]">
       <aside className="sticky top-0 hidden h-screen border-r bg-card lg:block">{sidebar('desk')}</aside>
-      <div className={cn('fixed inset-0 z-40 bg-[#0b1220]/50 transition-opacity duration-200 ease-out lg:hidden', open ? 'opacity-100' : 'pointer-events-none opacity-0')} onClick={() => setOpen(false)} aria-hidden />
+      <div className={cn('fixed inset-0 z-40 bg-[#071039]/50 transition-opacity duration-200 ease-out lg:hidden', open ? 'opacity-100' : 'pointer-events-none opacity-0')} onClick={() => setOpen(false)} aria-hidden />
       <aside className={cn('fixed inset-y-0 left-0 z-50 w-72 border-r bg-card shadow-float transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:hidden', open ? 'translate-x-0' : '-translate-x-full')} aria-hidden={!open} inert={!open}>{sidebar('mobile')}</aside>
       <div className="min-w-0">
         <header className="sticky top-0 z-30 flex items-center justify-between border-b bg-background/80 px-4 py-2 backdrop-blur print:hidden lg:justify-end">

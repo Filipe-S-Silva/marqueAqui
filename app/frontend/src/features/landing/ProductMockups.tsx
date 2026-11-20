@@ -79,8 +79,8 @@ function DesktopMockup() {
 
 function PhoneMockup() {
   return (
-    <div className="relative w-44 rounded-[1.75rem] border-[5px] border-[#0f172a] bg-background p-2.5 shadow-float sm:w-52 dark:border-[#475569]">
-      <div className="mx-auto mb-2.5 h-1.5 w-12 rounded-full bg-[#0f172a]/80 dark:bg-[#475569]" />
+    <div className="relative w-36 rounded-[1.6rem] border-[5px] border-[#071039] bg-background p-2.5 shadow-float sm:w-44 lg:w-52 dark:border-[#2e5de6]">
+      <div className="mx-auto mb-2.5 h-1.5 w-12 rounded-full bg-[#071039]/80 dark:bg-[#2e5de6]" />
       <p className="font-display text-sm font-extrabold">Olá, Lucas!</p>
       <p className="text-xs text-muted-foreground">Seu próximo horário</p>
       <div className={cn('mt-2 rounded-lg p-2.5 text-xs shadow-card', TEAL)}>
@@ -103,10 +103,10 @@ function PhoneMockup() {
 function Laptop() {
   return (
     <div className="[transform-style:preserve-3d]">
-      <div className="rounded-t-2xl rounded-b-md border-[6px] border-b-[12px] border-[#0f172a] bg-[#0f172a] shadow-float dark:border-[#334155] dark:bg-[#334155]">
+      <div className="rounded-t-2xl rounded-b-md border-[6px] border-b-[12px] border-[#071039] bg-[#071039] shadow-float dark:border-[#1a3bb0] dark:bg-[#1a3bb0]">
         <DesktopMockup />
       </div>
-      <div className="-mx-[7%] h-5 origin-top rounded-b-2xl bg-gradient-to-b from-[#cbd5e1] to-[#94a3b8] shadow-float [transform:rotateX(70deg)] dark:from-[#475569] dark:to-[#1e293b]" />
+      <div className="-mx-[7%] h-5 origin-top rounded-b-2xl bg-gradient-to-b from-[#afc5f8] to-[#6e92f2] shadow-float [transform:rotateX(70deg)] dark:from-[#1a3bb0] dark:to-[#0f2270]" />
     </div>
   );
 }
@@ -115,7 +115,7 @@ function Laptop() {
 function Phone() {
   return (
     <div className="relative [transform-style:preserve-3d]">
-      <div className="absolute inset-0 rounded-[1.75rem] bg-[#0f172a] [transform:translateZ(-14px)] dark:bg-[#1e293b]" />
+      <div className="absolute inset-0 rounded-[1.6rem] bg-[#071039] [transform:translateZ(-14px)] dark:bg-[#0f2270]" />
       <PhoneMockup />
     </div>
   );
@@ -139,11 +139,13 @@ export function ProductMockups() {
 
   return (
     <div role="img" aria-label="Prévia do MarqueAqui: a agenda da equipe no computador e o agendamento do cliente no celular"
-      className="relative pb-12 [perspective:1600px] sm:pb-16" onPointerMove={move} onPointerLeave={() => { rx.set(0); ry.set(0); }}>
-      <motion.div className="relative [transform-style:preserve-3d]" style={{ transform }}>
+      className="relative mx-auto max-w-[22rem] pb-10 [perspective:1600px] max-sm:[zoom:0.75] sm:max-w-none sm:pb-16" onPointerMove={move} onPointerLeave={() => { rx.set(0); ry.set(0); }}>
+      {/* Sem preserve-3d no grupo: notebook e celular são camadas separadas (cada uma com sua perspectiva),
+          então o plano do notebook nunca atravessa e corta o celular quando a cena inclina */}
+      <motion.div className="relative" style={{ transform }}>
         {/* margem à direita: o celular sobrepõe só a borda do notebook, sem esconder a última coluna */}
-        <div aria-hidden className="mr-16 [transform-style:preserve-3d] [transform:rotateY(-14deg)_rotateX(6deg)] sm:mr-28"><Laptop /></div>
-        <div aria-hidden className="absolute bottom-0 right-0 [transform-style:preserve-3d] [transform:translateZ(170px)_rotateY(-24deg)_rotateX(4deg)]">
+        <div aria-hidden className="mr-12 [transform-style:preserve-3d] [transform:perspective(1600px)_rotateY(-14deg)_rotateX(6deg)] sm:mr-28"><Laptop /></div>
+        <div aria-hidden className="absolute bottom-0 right-0 z-10 [transform-style:preserve-3d] [transform:perspective(1200px)_rotateY(-22deg)_rotateX(4deg)]">
           <div className="float-y [transform-style:preserve-3d]"><Phone /></div>
         </div>
       </motion.div>

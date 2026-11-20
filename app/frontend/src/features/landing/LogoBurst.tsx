@@ -15,7 +15,7 @@ const EASE = [0.23, 1, 0.32, 1] as const;
 const IN_OUT = [0.77, 0, 0.175, 1] as const;
 const MID = (WORD.length - 1) / 2;
 const PARTICLES = 18;
-const COLORS = ['bg-primary', 'bg-[#06b6d4]', 'bg-highlight', 'bg-[#fbbf24]'];
+const COLORS = ['bg-[#1a3bb0]', 'bg-[#2e5de6]', 'bg-[#6e92f2]', 'bg-[#afc5f8]'];
 
 // Pseudoaleatório fixo por índice: a explosão é sempre igual e não muda a cada renderização
 const rnd = (i: number, k: number) => { const x = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453; return x - Math.floor(x); };

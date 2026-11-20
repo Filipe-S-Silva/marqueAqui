@@ -156,7 +156,8 @@ function Hero() {
                 <Button asChild size="lg" variant="outline"><Link to="/login">Já tenho conta</Link></Button>
               </div>
             </motion.div>
-            <motion.div initial={reduce ? false : { opacity: 0, transform: 'translateY(24px) scale(0.97)' }} animate={{ opacity: 1, transform: 'translateY(0px) scale(1)' }}
+            {/* no celular os mockups vêm primeiro; no desktop ficam à direita do texto */}
+            <motion.div className="order-first lg:order-none" initial={reduce ? false : { opacity: 0, transform: 'translateY(24px) scale(0.97)' }} animate={{ opacity: 1, transform: 'translateY(0px) scale(1)' }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}>
               <ProductMockups />
             </motion.div>
