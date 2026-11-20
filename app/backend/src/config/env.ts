@@ -14,7 +14,8 @@ const schema = z
     PORT: z.coerce.number().int().min(1).max(65535).default(3333),
     DATABASE_URL: z.string().url(),
     JWT_SECRET: z.string().min(32, 'JWT_SECRET precisa ter pelo menos 32 caracteres.'),
-    CORS_ORIGIN: z.string().min(1),
+    // Barra final é erro comum ao colar a URL no painel; uma origem nunca tem barra, então removê-la é seguro.
+    CORS_ORIGIN: z.string().min(1).transform((s) => s.split(',').map((o) => o.trim().replace(/\/+$/, '')).join(',')),
     INACTIVITY_DAYS: z.coerce.number().int().min(1).default(45),
     INACTIVITY_SWEEP_MINUTES: z.coerce.number().int().min(1).default(360),
     RETENTION_MONTHS: z.coerce.number().int().min(1).max(60).default(3),

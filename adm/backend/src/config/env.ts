@@ -8,7 +8,8 @@ const schema = z
     PORT: z.coerce.number().int().min(1).max(65535).default(3334),
     DATABASE_URL: z.string().url(),
     ADMIN_EMAIL_PEPPER: z.string().min(32, 'ADMIN_EMAIL_PEPPER precisa ter pelo menos 32 caracteres.'),
-    CORS_ORIGIN: z.string().min(1),
+    // Barra final é erro comum ao colar a URL no painel; uma origem nunca tem barra, então removê-la é seguro.
+    CORS_ORIGIN: z.string().min(1).transform((s) => s.split(',').map((o) => o.trim().replace(/\/+$/, '')).join(',')),
     // Pepper de senha (compartilhado com o APP). Obrigatório em produção.
     PASSWORD_PEPPER: z.string().min(32, 'PASSWORD_PEPPER precisa ter pelo menos 32 caracteres.').optional(),
     // true = todo administrador precisa ativar o 2FA antes de usar o painel
