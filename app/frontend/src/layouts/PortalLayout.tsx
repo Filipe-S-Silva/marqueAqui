@@ -75,7 +75,7 @@ export function PortalLayout({ nav, title }: { nav: NavItem[]; title: string }) 
   );
 
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[17rem_1fr]">
+    <div className="min-h-screen lg:grid lg:grid-cols-[15rem_1fr]">
       <aside className="sticky top-0 hidden h-screen border-r bg-card lg:block">{sidebar('desk')}</aside>
       <div className={cn('fixed inset-0 z-40 bg-[#071039]/50 dark:bg-black/70 transition-opacity duration-200 ease-out lg:hidden', open ? 'opacity-100' : 'pointer-events-none opacity-0')} onClick={() => setOpen(false)} aria-hidden />
       <aside className={cn('fixed inset-y-0 left-0 z-50 w-72 border-r bg-card shadow-float transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:hidden', open ? 'translate-x-0' : '-translate-x-full')} aria-hidden={!open} inert={!open}>
@@ -86,7 +86,8 @@ export function PortalLayout({ nav, title }: { nav: NavItem[]; title: string }) 
           <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(true)} aria-label="Abrir menu"><Menu className="size-5" /></Button>
           <ThemeToggle />
         </header>
-        <main className="mx-auto w-full max-w-5xl p-4 sm:p-6"><div key={loc.pathname} className="rise"><Outlet /></div></main>
+        {/* Agendas usam toda a largura ao lado do menu (≥85% da tela em monitores largos); as demais páginas ficam em 64rem */}
+        <main className={cn('mx-auto w-full p-4', /agenda/.test(loc.pathname) ? 'sm:py-6' : 'max-w-5xl sm:p-6')}><div key={loc.pathname} className="rise"><Outlet /></div></main>
       </div>
       <NoticesDialog />
     </div>
