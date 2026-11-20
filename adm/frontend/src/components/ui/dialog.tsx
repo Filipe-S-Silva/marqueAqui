@@ -22,7 +22,7 @@ interface ContentProps extends ComponentProps<typeof D.Content> {
 export function DialogContent({ className, children, blocking, ...p }: ContentProps) {
   return (
     <D.Portal>
-      <D.Overlay className="dlg-overlay fixed inset-0 z-50 bg-[#050a14]/60 backdrop-blur-sm" />
+      <D.Overlay className="dlg-overlay fixed inset-0 z-50 bg-[#111827]/60 backdrop-blur-sm" />
       <D.Content
         onInteractOutside={blocking ? (e) => e.preventDefault() : undefined}
         onEscapeKeyDown={blocking ? (e) => e.preventDefault() : undefined}

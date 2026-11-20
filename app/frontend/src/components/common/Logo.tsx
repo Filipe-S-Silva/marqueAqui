@@ -5,9 +5,9 @@ import { cn } from '@/lib/utils';
 export function BrandMark({ className }: { className?: string }) {
   return (
     <span className={cn('inline-flex items-center gap-2 font-extrabold tracking-tight', className)}>
-      <span className="relative grid size-8 place-items-center overflow-hidden rounded-md bg-primary text-primary-foreground shadow-card">
-        <span className="pole absolute inset-x-0 top-0 h-1 opacity-90" aria-hidden />
-        <CalendarCheck className="mt-0.5 size-[18px]" aria-hidden />
+      {/* em: o ícone acompanha o tamanho do texto (menu, rodapé e o logo grande do hero) */}
+      <span className="grid size-[1.75em] place-items-center rounded-md bg-primary text-primary-foreground shadow-card">
+        <CalendarCheck className="size-[1em]" aria-hidden />
       </span>
       <span className="font-display text-[1.1em]">Marque<span className="text-primary">Aqui</span></span>
     </span>

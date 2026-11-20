@@ -26,7 +26,7 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
 export function PageLoading({ label = 'Carregando…' }: { label?: string }) {
   return (
     <div className="flex min-h-40 items-center justify-center gap-2 text-sm text-muted-foreground" role="status">
-      <span className="pole pole-move h-1.5 w-24 overflow-hidden rounded-full" aria-hidden /> {label}
+      <span className="skeleton h-1.5 w-24 rounded-full" aria-hidden /> {label}
     </div>
   );
 }

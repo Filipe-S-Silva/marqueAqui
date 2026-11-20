@@ -9,6 +9,7 @@ import { useAsync, errorMessage } from '@/hooks/useAsync';
 import { api } from '@/lib/api';
 import { brl, formatDate, todayInBrazil } from '@/lib/format';
 import { AgendaColumn } from './AgendaView';
+import { AgendaGrid } from './AgendaGrid';
 import { BreakForm } from './BreaksPanel';
 import { DayNav } from './DayNav';
 import { StaffBookingDialog } from './StaffBookingDialog';
@@ -79,7 +80,7 @@ export function StaffAgendaPage() {
   if (activeShopId === null) return <EmptyState title="Nenhuma empresa ativa" description={shops.length ? 'Selecione uma empresa no menu.' : 'Sua conta não tem vínculo ativo.'} />;
 
   return (
-    <div className="grid gap-5">
+    <div className="grid grid-cols-1 gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-extrabold">Minha agenda</h1>
         {r.data && <StaffBookingDialog shopId={activeShopId} barbers={[{ barberId: r.data.barberId, name: r.data.name }]} initialDate={date} onCreated={r.reload} />}
@@ -87,6 +88,7 @@ export function StaffAgendaPage() {
       <DayNav date={date} onChange={setDate} />
       {r.error ? <ErrorState message={r.error} onRetry={r.reload} /> : r.loading || !r.data ? <PageLoading /> : (
         <>
+          <AgendaGrid agendas={[r.data]} />
           <AgendaColumn agenda={r.data} date={date} onChanged={r.reload} onDeleteBreak={(id) => void deleteBreak(id)} />
           <BreakForm date={date} onCreated={r.reload} />
         </>

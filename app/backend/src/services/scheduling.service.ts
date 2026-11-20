@@ -450,7 +450,7 @@ export async function finishAppointment(
 
 /* ------------------------------------------------------------------ agendas */
 
-async function buildAgenda(ctx: AppContext, barberList: Array<{ id: number; name: string }>, date: string) {
+async function buildAgenda(ctx: AppContext, barberList: Array<{ id: number; name: string; photoUrl: string | null }>, date: string) {
   const ids = barberList.map((b) => b.id);
   const weekday = weekdayOf(date);
   const [wh, brk, rows] = await Promise.all([
@@ -464,6 +464,7 @@ async function buildAgenda(ctx: AppContext, barberList: Array<{ id: number; name
   return barberList.map((b) => ({
     barberId: b.id,
     name: b.name,
+    photoUrl: b.photoUrl,
     working: (whBy.get(b.id) ?? []).map(toInterval),
     breaks: (brkBy.get(b.id) ?? []).map((x) => ({ id: x.id, ...toInterval(x), reason: x.reason })),
     appointments: (rowsBy.get(b.id) ?? []).map((r) => ({ ...r, price: toMoney(r.priceCents) })),
@@ -475,7 +476,7 @@ export async function staffAgenda(ctx: AppContext, auth: AuthContext, date: stri
   const day = date ?? nowInBusinessTz().date;
   const barber = await repo.getBarberInShop(ctx.db, auth.barberId, auth.shopId);
   if (!barber) throw forbidden('Você não atende nesta empresa.', 'NOT_A_BARBER');
-  const [agenda] = await buildAgenda(ctx, [{ id: barber.id, name: barber.name }], day);
+  const [agenda] = await buildAgenda(ctx, [{ id: barber.id, name: barber.name, photoUrl: barber.photoUrl }], day);
   return { date: day, ...agenda! };
 }
 
@@ -483,7 +484,7 @@ export async function managerAgenda(ctx: AppContext, auth: AuthContext, date: st
   if (auth.shopId === null) throw forbidden('Nenhuma empresa ativa vinculada à sua conta.', 'NO_ACTIVE_SHOP');
   const day = date ?? nowInBusinessTz().date;
   const rows = await ctx.db
-    .select({ id: barbersTable.id, name: usersTable.name })
+    .select({ id: barbersTable.id, name: usersTable.name, photoUrl: usersTable.photoUrl })
     .from(barbersTable)
     .innerJoin(usersTable, eq(usersTable.id, barbersTable.userId))
     .where(

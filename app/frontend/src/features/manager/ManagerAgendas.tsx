@@ -7,6 +7,7 @@ import { useAsync, errorMessage } from '@/hooks/useAsync';
 import { api } from '@/lib/api';
 import { todayInBrazil } from '@/lib/format';
 import { AgendaColumn } from '@/features/staff/AgendaView';
+import { AgendaGrid } from '@/features/staff/AgendaGrid';
 import { BreakForm } from '@/features/staff/BreaksPanel';
 import { DayNav } from '@/features/staff/DayNav';
 import { StaffBookingDialog } from '@/features/staff/StaffBookingDialog';
@@ -27,7 +28,7 @@ export function ManagerAgendas() {
   }
 
   return (
-    <div className="grid gap-5">
+    <div className="grid grid-cols-1 gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-extrabold">Agendas da equipe</h1>
         {activeShopId !== null && list.length > 0 && (
@@ -42,9 +43,12 @@ export function ManagerAgendas() {
         </Select>
       </div>
       {all.error ? <ErrorState message={all.error} onRetry={all.reload} /> : all.loading ? <PageLoading /> : (
-        <div className="grid gap-4 lg:grid-cols-2">
-          {shown.map((b) => <AgendaColumn key={b.barberId} agenda={b} date={date} onChanged={all.reload} onDeleteBreak={(id) => void deleteBreak(b.barberId, id)} />)}
-        </div>
+        <>
+          {shown.length > 0 && <AgendaGrid agendas={shown} />}
+          <div className={barberId === '' ? 'grid gap-4 lg:grid-cols-2' : 'grid gap-4'}>
+            {shown.map((b) => <AgendaColumn key={b.barberId} agenda={b} date={date} onChanged={all.reload} onDeleteBreak={(id) => void deleteBreak(b.barberId, id)} />)}
+          </div>
+        </>
       )}
       {barberId !== '' && <BreakForm date={date} barberId={barberId} onCreated={all.reload} />}
     </div>

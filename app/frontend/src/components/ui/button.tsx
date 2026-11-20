@@ -9,7 +9,7 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground shadow-[inset_0_1px_0_rgb(255_255_255/0.22),0_6px_14px_-6px_color-mix(in_oklab,var(--primary)_70%,transparent)] hover:brightness-110',
+        default: 'bg-primary text-primary-foreground shadow-card hover:brightness-110',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-accent',
         outline: 'border border-input bg-card shadow-card hover:bg-accent',
         ghost: 'hover:bg-accent hover:text-accent-foreground',

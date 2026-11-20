@@ -50,7 +50,6 @@ export function ClientDashboard() {
           )}
           <Rise index={0}>
           <Card className="relative overflow-hidden">
-            <span className="pole absolute inset-y-0 left-0 w-1.5" aria-hidden />
             <CardHeader className="pl-7"><CardTitle className="flex items-center gap-2"><CalendarClock className="size-4 text-primary" /> Próximo agendamento</CardTitle></CardHeader>
             <CardContent className="pl-7">
               {d.data.next ? (

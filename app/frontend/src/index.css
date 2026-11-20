@@ -2,57 +2,76 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Tokens no padrão shadcn/ui. Claro: azul-claro, branco, vermelho. Escuro: azul-escuro, preto, vermelho. */
+/* Tokens no padrão shadcn/ui. Paleta: verde-petróleo #115E59, azul #1E40AF, amarelo #EAB308, cinza #F3F4F6, quase preto #111827. */
 :root {
-  --background: #eef5ff;
-  --foreground: #0f1b33;
+  --background: #f3f4f6;
+  --foreground: #111827;
   --card: #ffffff;
-  --card-foreground: #0f1b33;
+  --card-foreground: #111827;
   --popover: #ffffff;
-  --popover-foreground: #0f1b33;
-  --primary: #d62839;
+  --popover-foreground: #111827;
+  --primary: #115e59;
   --primary-foreground: #ffffff;
-  --secondary: #dbe9ff;
-  --secondary-foreground: #14305c;
-  --muted: #e4edfb;
-  --muted-foreground: #3f4e68;
-  --accent: #cfe1ff;
-  --accent-foreground: #0f1b33;
-  --destructive: #b3202f;
+  --secondary: #e6efee;
+  --secondary-foreground: #0d4642;
+  --muted: #e5e7eb;
+  --muted-foreground: #4b5563;
+  --accent: #d5e6e4;
+  --accent-foreground: #111827;
+  --destructive: #b91c1c;
   --destructive-foreground: #ffffff;
-  --success: #17794a;
-  --warning: #9a6200;
-  --border: #cbd9ef;
-  --input: #b9cae4;
-  --ring: #2563c9;
+  --success: #15803d;
+  --warning: #a16207;
+  --highlight: #eab308;
+  --border: #e5e7eb;
+  --input: #d1d5db;
+  --ring: #1e40af;
+  /* Blocos da agenda: tons claros da paleta, texto escuro do mesmo matiz */
+  --ev-teal: #cfe6e3;
+  --ev-teal-fg: #0b3f3b;
+  --ev-blue: #dbe3f8;
+  --ev-blue-fg: #1e3a8a;
+  --ev-yellow: #fcefc0;
+  --ev-yellow-fg: #713f12;
+  --ev-gray: #e5e7eb;
+  --ev-gray-fg: #111827;
   --radius: 1rem;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --shadow-tint: 15 40 90;
+  --shadow-tint: 17 24 39;
 }
 
 .dark {
-  --background: #050a14;
-  --foreground: #e8eefb;
-  --card: #0b1426;
-  --card-foreground: #e8eefb;
-  --popover: #0b1426;
-  --popover-foreground: #e8eefb;
-  --primary: #ef4a5a;
-  --primary-foreground: #1a0407;
-  --secondary: #12203d;
-  --secondary-foreground: #cfe0ff;
-  --muted: #0f1a30;
-  --muted-foreground: #b4c1d9;
-  --accent: #172a4f;
-  --accent-foreground: #e8eefb;
-  --destructive: #f0566a;
-  --destructive-foreground: #1a0407;
-  --success: #4cc38a;
-  --warning: #e8b04a;
-  --border: #1c2b4a;
-  --input: #273a61;
-  --ring: #6ea0ff;
+  --background: #111827;
+  --foreground: #f3f4f6;
+  --card: #1a2232;
+  --card-foreground: #f3f4f6;
+  --popover: #1a2232;
+  --popover-foreground: #f3f4f6;
+  --primary: #2a9d93;
+  --primary-foreground: #04201e;
+  --secondary: #1f2d3a;
+  --secondary-foreground: #d5ece9;
+  --muted: #1f2937;
+  --muted-foreground: #9ca3af;
+  --accent: #23343f;
+  --accent-foreground: #f3f4f6;
+  --destructive: #f87171;
+  --destructive-foreground: #1f0707;
+  --success: #4ade80;
+  --warning: #eab308;
+  --highlight: #eab308;
+  --border: #2b3445;
+  --input: #3b4558;
+  --ring: #7c9cf0;
+  --ev-teal: #134e4a;
+  --ev-teal-fg: #d5f5f1;
+  --ev-blue: #1e3a8a;
+  --ev-blue-fg: #dde7ff;
+  --ev-yellow: #5c4410;
+  --ev-yellow-fg: #fdf1c4;
+  --ev-gray: #2b3445;
+  --ev-gray-fg: #f3f4f6;
   --shadow-tint: 0 0 0;
 }
 
@@ -75,6 +94,7 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-warning: var(--warning);
+  --color-highlight: var(--highlight);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -108,16 +128,6 @@
   .tnum { font-variant-numeric: tabular-nums; }
 }
 
-/* Listra de barbeiro: assinatura visual do produto. Usada em faixas finas, nunca em áreas de leitura. */
-.pole {
-  background-image: repeating-linear-gradient(135deg, var(--primary) 0 8px, #fff 8px 16px, var(--ring) 16px 24px, #fff 24px 32px);
-  background-size: 45.25px 45.25px;
-}
-.dark .pole {
-  background-image: repeating-linear-gradient(135deg, var(--primary) 0 8px, var(--card) 8px 16px, var(--ring) 16px 24px, var(--card) 24px 32px);
-}
-.pole-move { animation: pole-slide 1.2s linear infinite; }
-@keyframes pole-slide { to { background-position: 45.25px 0; } }
 
 @keyframes shimmer { to { background-position: -200% 0; } }
 .skeleton {
@@ -157,7 +167,7 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .skeleton, .pole-move { animation: none !important; }
+  .skeleton { animation: none !important; }
 }
 
 /* Entrada curta de listas e páginas: acompanha a ação do usuário (navegar, filtrar, carregar dados) */

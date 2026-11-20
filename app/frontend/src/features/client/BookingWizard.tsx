@@ -23,7 +23,7 @@ function Stepper({ step }: { step: number }) {
   return (
     <div className="grid gap-3">
       <div className="h-1.5 overflow-hidden rounded-full bg-muted" aria-hidden>
-        <div className="pole h-full w-full origin-left rounded-full transition-transform duration-300 ease-[cubic-bezier(0.77,0,0.175,1)]"
+        <div className="h-full w-full bg-primary origin-left rounded-full transition-transform duration-300 ease-[cubic-bezier(0.77,0,0.175,1)]"
           style={{ transform: `scaleX(${(step + 1) / STEPS.length})` }} />
       </div>
       <ol className="flex items-center gap-1 overflow-x-auto text-xs sm:text-sm" aria-label="Etapas do agendamento">

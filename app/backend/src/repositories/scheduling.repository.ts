@@ -143,7 +143,7 @@ export async function listBarbersForService(db: DbOrTx, shopId: number, serviceI
 /** Profissional ativo (vínculo e conta) em empresa ativa, ou undefined. Sempre filtra pela empresa. */
 export async function getBarberInShop(db: DbOrTx, barberId: number, shopId: number) {
   const [row] = await db
-    .select({ id: barbers.id, userId: barbers.userId, shopId: barbers.shopId, name: users.name })
+    .select({ id: barbers.id, userId: barbers.userId, shopId: barbers.shopId, name: users.name, photoUrl: users.photoUrl })
     .from(barbers)
     .innerJoin(users, eq(users.id, barbers.userId))
     .innerJoin(shops, eq(shops.id, barbers.shopId))

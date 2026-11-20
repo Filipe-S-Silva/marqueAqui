@@ -8,36 +8,6 @@ import { Field } from '@/components/common/Field';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { BarberChair } from './BarberChair';
-
-
-/** Texto que se forma letra a letra, como argila ganhando forma. Sem movimento se o usuário pediu menos animação. */
-function Molded({ text, delay, step, className }: { text: string; delay: number; step: number; className?: string }) {
-  const reduce = useReducedMotion();
-  let n = 0;
-  return (
-    <span className={className} aria-hidden>
-      {text.split(' ').map((word, wi, all) => (
-        <span key={wi}>
-          <span className="inline-block whitespace-nowrap">
-            {[...word].map((ch) => {
-              const k = n++;
-              return (
-                <motion.span key={k} className="inline-block origin-bottom"
-                  initial={reduce ? false : { opacity: 0, transform: 'translateY(0.35em) scale(0.6, 1.5)', filter: 'blur(8px)' }}
-                  animate={{ opacity: 1, transform: 'translateY(0em) scale(1, 1)', filter: 'blur(0px)' }}
-                  transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1], delay: delay + k * step }}>
-                  {ch}
-                </motion.span>
-              );
-            })}
-          </span>
-          {wi < all.length - 1 && (() => { n += 1; return ' '; })()}
-        </span>
-      ))}
-    </span>
-  );
-}
 
 /* ───────────── Agenda de exemplo: uma agenda de verdade se preenchendo ───────────── */
 
@@ -82,7 +52,6 @@ function HeroAgenda() {
 
   return (
     <div className="relative mx-auto w-full max-w-md" aria-hidden>
-      <span className="pole absolute -right-3 top-8 h-56 w-6 rotate-[14deg] rounded-full opacity-80" />
       <div className="rise relative rounded-lg border bg-card p-4 shadow-float" style={{ '--i': 1 } as CSSProperties}>
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -154,6 +123,40 @@ function HeroAgenda() {
   );
 }
 
+/* ───────────── Hero: a pergunta, depois a apresentação e o logo no centro ───────────── */
+
+const EASE = [0.23, 1, 0.32, 1] as const;
+
+function Hero() {
+  const reduce = useReducedMotion();
+  // Sem animação (redução de movimento), tudo aparece de uma vez
+  const show = (delay: number, from: Record<string, string | number> = { opacity: 0, transform: 'translateY(12px)' }) =>
+    reduce ? {} : { initial: from, animate: { opacity: 1, transform: 'translateY(0px) scale(1)', filter: 'blur(0px)' }, transition: { duration: 0.7, ease: EASE, delay } };
+
+  return (
+    <section className="mx-auto flex min-h-[calc(100svh-3.5rem)] max-w-4xl flex-col items-center justify-center px-4 py-16 text-center">
+      <motion.h1 className="text-3xl font-extrabold leading-tight sm:text-5xl" {...show(0.2)}>
+        Precisando ter o controle da sua agenda e do fluxo de caixa?
+      </motion.h1>
+      <motion.p className="mt-10 text-lg font-semibold text-muted-foreground sm:text-xl" {...show(1.3)}>
+        Apresentamos o
+      </motion.p>
+      <motion.div className="mt-4" {...show(1.9, { opacity: 0, transform: 'scale(0.85)', filter: 'blur(10px)' })}>
+        <BrandMark className="text-4xl sm:text-7xl" />
+      </motion.div>
+      <motion.div className="mt-10 flex flex-col items-center" {...show(2.8)}>
+        <p className="max-w-xl text-lg text-muted-foreground">
+          Agenda da equipe, horários livres em tempo real e o faturamento do mês num só lugar. Seus clientes marcam em segundos, sem ligação.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Button asChild size="lg"><Link to="/register">Criar conta grátis</Link></Button>
+          <Button asChild size="lg" variant="outline"><Link to="/login">Já tenho conta</Link></Button>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
 const STEPS = [
   { icon: Store, title: 'Escolha a empresa', text: 'Pesquise o salão ou a barbearia pelo nome.' },
   { icon: Users, title: 'Escolha serviço e profissional', text: 'Veja duração, preço e quem realiza o serviço.' },
@@ -212,12 +215,9 @@ function PartnerForm() {
 }
 
 export function LandingPage() {
-  const reduce = useReducedMotion();
-
   return (
     <div>
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
-        <span className="pole absolute inset-x-0 top-0 h-[3px]" aria-hidden />
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3">
           <Link to="/" className="text-lg"><BrandMark /></Link>
           <nav aria-label="Seções" className="hidden gap-6 text-sm font-medium md:flex">
@@ -228,35 +228,13 @@ export function LandingPage() {
           <div className="flex items-center gap-1">
             <ThemeToggle />
             <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link to="/parceiro/login">Sou parceiro</Link></Button>
-            <Button asChild variant="ghost" size="sm"><Link to="/login">Entrar</Link></Button>
+            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex"><Link to="/login">Entrar</Link></Button>
             <Button asChild size="sm"><Link to="/register">Criar conta</Link></Button>
           </div>
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-[radial-gradient(ellipse_at_top_right,var(--accent),transparent_62%)]">
-        <div className="mx-auto grid min-h-[calc(100svh-3.5rem)] max-w-6xl items-center gap-10 px-4 py-14 lg:grid-cols-2">
-          <div>
-            <h1 aria-label="Marque aqui!" className="text-6xl font-extrabold leading-[0.95] sm:text-8xl">
-              <Molded text="Marque aqui!" delay={1.9} step={0.05} />
-            </h1>
-            <h2 aria-label="por EasyService&Cia" className="mt-3 text-2xl font-semibold text-muted-foreground sm:text-4xl">
-              <Molded text="por EasyService&Cia" delay={2.6} step={0.03} />
-            </h2>
-            <motion.div className="mt-8"
-              initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 3.4 }}>
-              <p className="max-w-md text-lg text-muted-foreground">
-                Marque seu horário em segundos, sem ligação e sem fila, direto na agenda real do salão ou da barbearia.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button asChild size="lg"><Link to="/register">Criar conta grátis</Link></Button>
-                <Button asChild size="lg" variant="outline"><Link to="/login">Já tenho conta</Link></Button>
-              </div>
-            </motion.div>
-          </div>
-          <BarberChair />
-        </div>
-      </section>
+      <Hero />
 
       <section id="agenda" className="mx-auto grid max-w-6xl scroll-mt-20 items-center gap-12 px-4 py-20 lg:grid-cols-2">
         <div>

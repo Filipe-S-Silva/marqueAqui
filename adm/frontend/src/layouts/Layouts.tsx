@@ -24,7 +24,6 @@ export function Brand() {
   return (
     <span className="inline-flex items-center gap-2 font-extrabold tracking-tight">
       <span className="relative grid size-8 place-items-center overflow-hidden rounded-md bg-primary text-primary-foreground shadow-card">
-        <span className="pole absolute inset-x-0 top-0 h-1 opacity-90" aria-hidden />
         <ShieldCheck className="mt-0.5 size-[18px]" aria-hidden />
       </span>
       <span className="font-display">Marque<span className="text-primary">Aqui</span> <span className="rounded bg-foreground px-1.5 py-0.5 text-[10px] font-bold uppercase text-background">ADM</span></span>
@@ -89,7 +88,7 @@ export function AdminLayout() {
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-[16rem_1fr]">
       <aside className="sticky top-0 hidden h-screen border-r bg-card lg:block">{sidebar('desk')}</aside>
-      <div className={cn('fixed inset-0 z-40 bg-[#050a14]/50 transition-opacity duration-200 ease-out lg:hidden', open ? 'opacity-100' : 'pointer-events-none opacity-0')} onClick={() => setOpen(false)} aria-hidden />
+      <div className={cn('fixed inset-0 z-40 bg-[#111827]/50 transition-opacity duration-200 ease-out lg:hidden', open ? 'opacity-100' : 'pointer-events-none opacity-0')} onClick={() => setOpen(false)} aria-hidden />
       <aside className={cn('fixed inset-y-0 left-0 z-50 w-72 border-r bg-card shadow-float transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:hidden', open ? 'translate-x-0' : '-translate-x-full')} aria-hidden={!open} inert={!open}>{sidebar('mobile')}</aside>
       <div className="min-w-0">
         <header className="sticky top-0 z-30 flex items-center justify-between border-b bg-background/80 px-4 py-2 backdrop-blur print:hidden lg:justify-end">

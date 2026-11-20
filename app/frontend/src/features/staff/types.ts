@@ -5,7 +5,7 @@ export interface AgendaAppointment {
 }
 export interface AgendaBreak { id: number; startTime: string; endTime: string; reason: string | null }
 export interface BarberAgenda {
-  barberId: number; name: string;
+  barberId: number; name: string; photoUrl: string | null;
   working: Array<{ startTime: string; endTime: string }>;
   breaks: AgendaBreak[]; appointments: AgendaAppointment[];
 }
