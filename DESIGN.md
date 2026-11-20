@@ -3,6 +3,8 @@ name: MarqueAqui
 description: Agendamento para salões e barbearias, com gestão completa e simplicidade.
 colors:
   meia-noite: "#071039"
+  noite-profunda: "#050b2c"
+  moldura-noite: "#161d38"
   marinho: "#0f2270"
   ultramarino: "#1a3bb0"
   azul-vivo: "#2e5de6"
@@ -127,7 +129,7 @@ Uma escala monocromática de sete azuis; cada degrau tem um papel fixo. Só suce
 
 ### Neutral
 - **Gelo** (#e6edfd): fundo do tema claro; cartões em **Papel** (#ffffff).
-- **Meia-noite** (#071039): texto do tema claro, fundo do tema escuro e véu sob diálogos (60%) e menus móveis (50%). **Marinho** (#0f2270): superfícies secundárias e apagadas no escuro; cartões do escuro em **Cartão Noite** (#0b1850).
+- **Meia-noite** (#071039): texto do tema claro e véu sob diálogos (60%) e menus móveis (50%). O fundo do tema escuro é a **Noite Profunda** (#050b2c), um degrau abaixo, tirado do vídeo de referência do hero. **Marinho** (#0f2270): superfícies secundárias e apagadas no escuro; cartões do escuro em **Cartão Noite** (#0b1850).
 - **Gelo Apagado** (#d5e1fb) e **Gelo Destaque** (#c4d4f9): botões secundários, áreas apagadas, hover e bordas no tema claro; **Azul Névoa** (#afc5f8) contorna campos.
 - **Texto Apagado** (#34437a): legendas no claro; no escuro, Azul Névoa.
 
@@ -206,8 +208,11 @@ Cantos generosos: 16px em cartões e diálogos, 10px em botões, campos, itens d
 ### Agenda em grade (assinatura)
 Cabeçalho com a foto redonda do profissional (56px; 80px quando é um só) e o nome logo abaixo. Linhas a cada 30 minutos; expediente em Papel e fora dele no tom do fundo. Cada atendimento é um bloco de 10px de canto com horário, nome do cliente em negrito e serviço; a cor do bloco vem do serviço (o mesmo serviço tem a mesma cor em todas as colunas). Pausas são blocos tracejados apagados; faltas ficam a 60% de opacidade; cancelados saem da grade e ficam só na lista.
 
+### Fundo líquido do hero
+Referência: motion background azul (ondas desfocadas sobre azul profundo). Quatro manchas grandes com desfoque de 64px derivam devagar (19 a 27s, ida e volta, só transform). Escuro: base #030722 com ondas Marinho, Ultramarino e Azul Vivo; claro: base Gelo com ondas Azul Névoa e Gelo Destaque e um toque de Azul Céu. Fica parado com redução de movimento. Vale só para o hero; o resto da página usa o fundo liso.
+
 ### Mockups 3D do hero
-Notebook com moldura meia-noite (ultramarino no escuro) e base deitada em perspectiva (rotateX 70°), girado −14° em Y; celular em camada própria por cima, girado −22°, com a traseira 14px atrás fazendo a espessura e flutuando devagar (5s). Notebook e celular não compartilham o mesmo espaço 3D, para o plano do notebook nunca cortar o celular. A cena inclina até 6° seguindo o mouse (mola), parada no toque e com redução de movimento. O conteúdo das telas é a interface real (agenda em grade e início do cliente) com dados de exemplo.
+Notebook com moldura meia-noite no claro e **Moldura Noite** (#161d38, preto-azulado) no escuro e base deitada em perspectiva (rotateX 70°), girado −14° em Y; celular em camada própria por cima, girado −22°, com a traseira 14px atrás fazendo a espessura e flutuando devagar (5s). Notebook e celular não compartilham o mesmo espaço 3D, para o plano do notebook nunca cortar o celular. A cena inclina até 6° seguindo o mouse (mola), parada no toque e com redução de movimento. O conteúdo das telas é a interface real (agenda em grade e início do cliente) com dados de exemplo.
 
 ### Diálogos
 Cartão de 16px, sombra de Flutuação, até 28rem, sobre véu meia-noite a 60% com desfoque. Entram com leve zoom (220ms) e saem em 140ms.

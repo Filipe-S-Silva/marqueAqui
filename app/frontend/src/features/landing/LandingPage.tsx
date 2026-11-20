@@ -125,6 +125,18 @@ function HeroAgenda() {
   );
 }
 
+/** Fundo líquido azul do hero (referência: motion background azul). Parado com redução de movimento. */
+function HeroBackdrop() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-[var(--hero-base)]">
+      <span className="wave wave-a -left-[15%] top-[-20%] h-[70%] w-[75%] bg-[var(--wave-1)]" />
+      <span className="wave wave-b -right-[20%] top-[10%] h-[55%] w-[80%] rotate-[-18deg] bg-[var(--wave-2)]" />
+      <span className="wave wave-c bottom-[-25%] left-[10%] h-[60%] w-[70%] rotate-[12deg] bg-[var(--wave-3)]" />
+      <span className="wave wave-a right-[5%] top-[35%] h-[35%] w-[45%] bg-[var(--wave-4)]" />
+    </div>
+  );
+}
+
 /* ───────────── Hero: o logo surge letra a letra e explode; depois entra o produto ───────────── */
 
 const EASE = [0.23, 1, 0.32, 1] as const;
@@ -245,7 +257,10 @@ export function LandingPage() {
         </div>
       </header>
 
-      <Hero />
+      <div className="relative isolate overflow-hidden">
+        <HeroBackdrop />
+        <Hero />
+      </div>
 
       <section id="agenda" className="mx-auto grid max-w-6xl scroll-mt-20 items-center gap-12 px-4 py-20 lg:grid-cols-2">
         <div>

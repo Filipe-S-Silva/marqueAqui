@@ -39,10 +39,20 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --shadow-tint: 7 16 57;
+  --hero-base: #e6edfd;
+  --wave-1: #afc5f8;
+  --wave-2: #c4d4f9;
+  --wave-3: rgb(110 146 242 / 0.45);
+  --wave-4: rgb(46 93 230 / 0.18);
+  /* Moldura dos aparelhos nos mockups */
+  --device: #071039;
+  --device-back: #071039;
+  --device-base-from: #afc5f8;
+  --device-base-to: #6e92f2;
 }
 
 .dark {
-  --background: #071039;
+  --background: #050b2c;
   --foreground: #e6edfd;
   --card: #0b1850;
   --card-foreground: #e6edfd;
@@ -73,6 +83,15 @@
   --ev-gray: #afc5f8;
   --ev-gray-fg: #071039;
   --shadow-tint: 0 0 0;
+  --hero-base: #030722;
+  --wave-1: #0f2270;
+  --wave-2: #1a3bb0;
+  --wave-3: rgb(46 93 230 / 0.55);
+  --wave-4: rgb(110 146 242 / 0.22);
+  --device: #161d38;
+  --device-back: #0c1126;
+  --device-base-from: #2a3358;
+  --device-base-to: #121833;
 }
 
 @theme inline {
@@ -169,6 +188,15 @@
 @media (prefers-reduced-motion: reduce) {
   .skeleton { animation: none !important; }
 }
+
+/* Fundo líquido do hero: manchas grandes e desfocadas que derivam devagar (só transform, barato para a GPU) */
+.wave { position: absolute; border-radius: 9999px; filter: blur(64px); will-change: transform; }
+.wave-a { animation: wave-a 22s ease-in-out infinite alternate; }
+.wave-b { animation: wave-b 27s ease-in-out infinite alternate; }
+.wave-c { animation: wave-c 19s ease-in-out infinite alternate; }
+@keyframes wave-a { to { transform: translate(14%, 10%) rotate(28deg) scale(1.2); } }
+@keyframes wave-b { to { transform: translate(-16%, -8%) rotate(-22deg) scale(1.15); } }
+@keyframes wave-c { to { transform: translate(10%, -14%) rotate(40deg) scale(1.3); } }
 
 /* Celular do mockup 3D flutuando devagar (a regra de redução de movimento acima o desliga) */
 @keyframes float-y { 50% { transform: translateY(-10px); } }

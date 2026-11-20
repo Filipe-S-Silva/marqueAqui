@@ -88,6 +88,16 @@
         "role": "warning",
         "displayName": "Âmbar Aviso",
         "canonical": "#b45309"
+      },
+      "noite-profunda": {
+        "role": "neutral",
+        "displayName": "Noite Profunda",
+        "canonical": "#050b2c"
+      },
+      "moldura-noite": {
+        "role": "neutral",
+        "displayName": "Moldura Noite",
+        "canonical": "#161d38"
       }
     },
     "typographyMeta": {
@@ -154,6 +164,11 @@
         "name": "float-y",
         "value": "5s ease-in-out infinito, 10px",
         "purpose": "Celular do mockup 3D flutuando."
+      },
+      {
+        "name": "hero-waves",
+        "value": "19-27s ease-in-out infinito alternado, blur 64px",
+        "purpose": "Fundo líquido azul do hero; parado com redução de movimento."
       }
     ],
     "breakpoints": [

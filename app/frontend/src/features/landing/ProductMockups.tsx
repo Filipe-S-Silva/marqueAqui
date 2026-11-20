@@ -79,8 +79,8 @@ function DesktopMockup() {
 
 function PhoneMockup() {
   return (
-    <div className="relative w-36 rounded-[1.6rem] border-[5px] border-[#071039] bg-background p-2.5 shadow-float sm:w-44 lg:w-52 dark:border-[#2e5de6]">
-      <div className="mx-auto mb-2.5 h-1.5 w-12 rounded-full bg-[#071039]/80 dark:bg-[#2e5de6]" />
+    <div className="relative w-36 rounded-[1.6rem] border-[5px] border-[var(--device)] bg-background p-2.5 shadow-float sm:w-44 lg:w-52">
+      <div className="mx-auto mb-2.5 h-1.5 w-12 rounded-full bg-[var(--device)]" />
       <p className="font-display text-sm font-extrabold">Olá, Lucas!</p>
       <p className="text-xs text-muted-foreground">Seu próximo horário</p>
       <div className={cn('mt-2 rounded-lg p-2.5 text-xs shadow-card', TEAL)}>
@@ -103,10 +103,10 @@ function PhoneMockup() {
 function Laptop() {
   return (
     <div className="[transform-style:preserve-3d]">
-      <div className="rounded-t-2xl rounded-b-md border-[6px] border-b-[12px] border-[#071039] bg-[#071039] shadow-float dark:border-[#1a3bb0] dark:bg-[#1a3bb0]">
+      <div className="rounded-t-2xl rounded-b-md border-[6px] border-b-[12px] border-[var(--device)] bg-[var(--device)] shadow-float">
         <DesktopMockup />
       </div>
-      <div className="-mx-[7%] h-5 origin-top rounded-b-2xl bg-gradient-to-b from-[#afc5f8] to-[#6e92f2] shadow-float [transform:rotateX(70deg)] dark:from-[#1a3bb0] dark:to-[#0f2270]" />
+      <div className="-mx-[7%] h-5 origin-top rounded-b-2xl bg-gradient-to-b from-[var(--device-base-from)] to-[var(--device-base-to)] shadow-float [transform:rotateX(70deg)]" />
     </div>
   );
 }
@@ -115,7 +115,7 @@ function Laptop() {
 function Phone() {
   return (
     <div className="relative [transform-style:preserve-3d]">
-      <div className="absolute inset-0 rounded-[1.6rem] bg-[#071039] [transform:translateZ(-14px)] dark:bg-[#0f2270]" />
+      <div className="absolute inset-0 rounded-[1.6rem] bg-[var(--device-back)] [transform:translateZ(-14px)]" />
       <PhoneMockup />
     </div>
   );
