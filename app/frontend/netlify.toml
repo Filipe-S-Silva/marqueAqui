@@ -5,6 +5,11 @@
   command = "npm run build -w @marqueaqui/app-frontend"
   publish = "app/frontend/dist"
 
+# A API passa pelo proxy /api abaixo. Definido aqui porque o netlify.toml tem prioridade sobre o painel,
+# e uma VITE_API_URL antiga no painel apontando direto para a Vercel quebra a sessão.
+[build.environment]
+  VITE_API_URL = "/api"
+
 # A API é chamada em /api (proxy abaixo), então connect-src 'self' basta.
 # style-src tem 'unsafe-inline' só para estilos: o Radix (react-remove-scroll, usado nos diálogos) injeta uma tag <style>.
 # Scripts continuam restritos a 'self' (sem inline, sem eval). Se testar e os diálogos funcionarem sem isso, remova.
