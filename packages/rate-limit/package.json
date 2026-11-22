@@ -10,7 +10,7 @@
     "test": "node --test tests/memory.test.ts"
   },
   "dependencies": {
-    "ioredis": "^5.4.1"
+    "ioredis": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
