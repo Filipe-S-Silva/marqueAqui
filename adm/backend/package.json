@@ -13,7 +13,7 @@
     "test:integration": "node --test tests/security.integration.test.ts"
   },
   "dependencies": {
-    "@fastify/cors": "^10.0.1",
+    "@fastify/cors": "^11.4.3",
     "@marqueaqui/database": "*",
     "@marqueaqui/rate-limit": "*",
     "dotenv": "^16.4.5",
