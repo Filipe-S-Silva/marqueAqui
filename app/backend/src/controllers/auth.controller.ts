@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import {
   changePasswordSchema,
+  deleteAccountSchema,
   forgotPasswordSchema,
   loginSchema,
   registerSchema,
@@ -8,6 +9,7 @@ import {
   selectShopSchema,
 } from '../schemas/auth.schemas.ts';
 import * as authService from '../services/auth.service.ts';
+import * as privacy from '../services/privacy.service.ts';
 import type { AuthResult } from '../services/auth.service.ts';
 import type { ClientInfo } from '../types/app-context.ts';
 import { parseCookies, serializeCookie } from '../utils/cookies.ts';
@@ -125,4 +127,15 @@ export async function resetPassword(req: FastifyRequest, reply: FastifyReply) {
   const input = parse(resetPasswordSchema, req.body);
   await authService.resetPassword(req.server.ctx, clientInfo(req), input);
   return ok(reply, null, 'Senha redefinida. Entre com a nova senha.');
+}
+
+export async function exportMyData(req: FastifyRequest, reply: FastifyReply) {
+  return ok(reply, await privacy.exportMyData(req.server.ctx, requireAuth(req)));
+}
+
+export async function deleteMyAccount(req: FastifyRequest, reply: FastifyReply) {
+  const { password } = parse(deleteAccountSchema, req.body);
+  await privacy.deleteMyAccount(req.server.ctx, clientInfo(req), requireAuth(req), password);
+  clearRefreshCookie(req, reply);
+  return ok(reply, null, 'Conta excluída. Seus dados pessoais foram removidos.');
 }

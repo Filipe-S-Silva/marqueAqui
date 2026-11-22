@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 import * as c from '../controllers/auth.controller.ts';
-import { authenticateAllowingPasswordChange } from '../middlewares/authenticate.ts';
+import { authenticate, authenticateAllowingPasswordChange } from '../middlewares/authenticate.ts';
 
 export async function authRoutes(app: FastifyInstance): Promise<void> {
   app.post('/register', c.register);
@@ -15,4 +15,8 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
   app.post('/logout', open, c.logout);
   app.post('/change-password', open, c.changePassword);
   app.post('/select-shop', open, c.selectShop);
+
+  // Direitos do titular (LGPD, Arts. 18 e 19)
+  app.get('/account/export', { preHandler: [authenticate] }, c.exportMyData);
+  app.post('/account/delete', { preHandler: [authenticate] }, c.deleteMyAccount);
 }

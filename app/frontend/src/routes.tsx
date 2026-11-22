@@ -9,6 +9,7 @@ import { BookingWizard } from '@/features/client/BookingWizard';
 import { ClientDashboard } from '@/features/client/ClientDashboard';
 import { MyAppointments } from '@/features/client/MyAppointments';
 import { LandingPage } from '@/features/landing/LandingPage';
+import { PrivacyPage, TermsPage } from '@/features/legal/LegalPages';
 import { ManagerAgendas } from '@/features/manager/ManagerAgendas';
 import { ManagerDashboard } from '@/features/manager/ManagerDashboard';
 import { ReviewsPage } from '@/features/manager/ReviewsPage';
@@ -65,6 +66,8 @@ export const router = createBrowserRouter([
       { path: '/forgot-password', element: <ForgotPasswordPage /> },
     ],
   },
+  { path: '/privacidade', element: <PrivacyPage /> },
+  { path: '/termos', element: <TermsPage /> },
   { path: '/reset-password', element: <ResetPasswordPage /> },
   { path: '/change-password', element: <ChangePasswordPage /> },
   {

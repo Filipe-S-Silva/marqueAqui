@@ -11,6 +11,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { LogoBurst } from './LogoBurst';
 import { ProductMockups } from './ProductMockups';
+import { PRIVACY_EMAIL } from '@/features/legal/LegalPages';
 
 /* ───────────── Agenda de exemplo: uma agenda de verdade se preenchendo ───────────── */
 
@@ -337,6 +338,11 @@ export function LandingPage() {
       <footer className="border-t py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-sm text-muted-foreground sm:flex-row">
           <BrandMark />
+          <nav aria-label="Documentos legais" className="flex gap-4">
+            <Link className="hover:text-foreground hover:underline" to="/privacidade">Privacidade</Link>
+            <Link className="hover:text-foreground hover:underline" to="/termos">Termos</Link>
+            <a className="hover:text-foreground hover:underline" href={`mailto:${PRIVACY_EMAIL}`}>Canal de privacidade</a>
+          </nav>
           <p>© {new Date().getFullYear()} EasyService&amp;Cia. Todos os direitos reservados.</p>
         </div>
       </footer>

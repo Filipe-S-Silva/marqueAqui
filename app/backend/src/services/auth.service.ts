@@ -115,6 +115,9 @@ async function issueSession(
 
 /* ---------------------------------------------------------------- cadastro */
 
+/** Versão vigente dos Termos e da Política (mesma data exibida nas páginas /termos e /privacidade). */
+export const TERMS_VERSION = '2026-11-21';
+
 export async function register(
   ctx: AppContext,
   client: ClientInfo,
@@ -133,6 +136,8 @@ export async function register(
     passwordHash: await hashPassword(input.password),
     role: 'CLIENT', // o cadastro público só cria clientes
     lastLoginAt: new Date(),
+    termsVersion: TERMS_VERSION,
+    termsAcceptedAt: new Date(),
   });
   await writeAudit(ctx.db, { actorType: 'USER', actorId: user.id, action: 'auth.register', entityType: 'user', entityId: user.id, ip: client.ip });
   return issueSession(ctx, user, { activeShopId: null, client, portal: 'client' });

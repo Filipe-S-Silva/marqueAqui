@@ -1,4 +1,6 @@
 import { useState, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Field } from '@/components/common/Field';
 import { Alert } from '@/components/common/states';
 import { Button } from '@/components/ui/button';
@@ -12,7 +14,8 @@ import { MAX_PHOTO_BYTES, api, uploadImage } from '@/lib/api';
 import { fieldErrors } from '@/features/auth/AuthShell';
 
 export function ProfilePage() {
-  const { user, patchUser } = useAuth();
+  const { user, patchUser, logout } = useAuth();
+  const nav = useNavigate();
   const toast = useToast();
   const isStaff = user?.role !== 'CLIENT';
   const [f, setF] = useState({ name: user?.name ?? '', phone: user?.phone ?? '', description: user?.description ?? '' });
@@ -23,6 +26,35 @@ export function ProfilePage() {
   const [pw, setPw] = useState({ cur: '', next: '', confirm: '' });
   const [pwErrors, setPwErrors] = useState<Record<string, string>>({});
   const [pwBusy, setPwBusy] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [delOpen, setDelOpen] = useState(false);
+  const [delPw, setDelPw] = useState('');
+  const [delError, setDelError] = useState<string | null>(null);
+  const [delBusy, setDelBusy] = useState(false);
+
+  // Cópia dos dados (LGPD, Art. 18, II e V)
+  async function exportData() {
+    setExporting(true);
+    try {
+      const data = await api.get<unknown>('/auth/account/export');
+      const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+      const a = document.createElement('a');
+      a.href = url; a.download = 'meus-dados-marqueaqui.json'; a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) { toast.push('error', errorMessage(err)); } finally { setExporting(false); }
+  }
+
+  // Exclusão da conta (LGPD, Art. 18, VI)
+  async function deleteAccount(e: FormEvent) {
+    e.preventDefault();
+    setDelBusy(true); setDelError(null);
+    try {
+      await api.post('/auth/account/delete', { password: delPw });
+      await logout();
+      toast.push('success', 'Conta excluída. Seus dados pessoais foram removidos.');
+      nav('/', { replace: true });
+    } catch (err) { setDelError(errorMessage(err)); } finally { setDelBusy(false); }
+  }
 
   async function save(e: FormEvent) {
     e.preventDefault();
@@ -113,6 +145,38 @@ export function ProfilePage() {
           </form>
         </CardContent>
       </Card>
+      <Card>
+        <CardHeader><CardTitle>Privacidade e dados</CardTitle></CardHeader>
+        <CardContent className="grid gap-4 text-sm">
+          <p className="text-muted-foreground">
+            Baixe uma cópia de tudo o que guardamos sobre você. Saiba mais na <Link className="font-semibold text-primary hover:underline" to="/privacidade">Política de Privacidade</Link>.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" loading={exporting} onClick={() => void exportData()}>Baixar meus dados</Button>
+            {user?.role === 'CLIENT' && <Button variant="destructive" onClick={() => { setDelPw(''); setDelError(null); setDelOpen(true); }}>Excluir minha conta</Button>}
+          </div>
+          {isStaff && <p className="text-muted-foreground">Para excluir uma conta de profissional ou gestor, abra um chamado no Suporte: ela está ligada a uma empresa.</p>}
+        </CardContent>
+      </Card>
+      <Dialog open={delOpen} onOpenChange={(o) => !delBusy && setDelOpen(o)}>
+        <DialogContent>
+          <DialogTitle>Excluir minha conta</DialogTitle>
+          <DialogDescription asChild>
+            <div className="grid gap-2 text-sm">
+              <p>Seus agendamentos futuros serão cancelados e seus dados pessoais serão removidos. Essa ação não pode ser desfeita.</p>
+              <p className="text-muted-foreground">Registros de acesso (IP, data e hora) são guardados por 6 meses, por obrigação legal.</p>
+            </div>
+          </DialogDescription>
+          <form onSubmit={deleteAccount} className="grid gap-4" noValidate>
+            {delError && <Alert tone="error">{delError}</Alert>}
+            <Field label="Confirme com a sua senha"><Input type="password" autoComplete="current-password" value={delPw} onChange={(e) => setDelPw(e.target.value)} required /></Field>
+            <div className="flex justify-end gap-2">
+              <Button type="button" variant="outline" disabled={delBusy} onClick={() => setDelOpen(false)}>Voltar</Button>
+              <Button type="submit" variant="destructive" loading={delBusy} disabled={!delPw}>Excluir conta</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

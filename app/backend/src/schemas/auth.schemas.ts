@@ -6,6 +6,9 @@ export const registerSchema = z.object({
   email: emailSchema,
   phone: optionalPhoneSchema,
   password: passwordSchema,
+  // Conta própria só para maiores de 18 (capacidade civil para contratar); menores são atendidos pela conta do responsável
+  acceptTerms: z.literal(true, { error: 'Aceite os Termos de Uso e a Política de Privacidade.' }),
+  isAdult: z.literal(true, { error: 'É preciso ter 18 anos ou mais para criar uma conta.' }),
 });
 
 export const loginSchema = z.object({
@@ -22,6 +25,8 @@ export const changePasswordSchema = z.object({
   currentPassword: z.string().min(1, 'Informe a senha atual.').max(128),
   newPassword: passwordSchema,
 });
+
+export const deleteAccountSchema = z.object({ password: z.string().min(1, 'Informe a senha.').max(128) });
 
 export const forgotPasswordSchema = z.object({ email: emailSchema });
 

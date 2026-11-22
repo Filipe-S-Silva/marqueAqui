@@ -7,7 +7,8 @@ export function createMailer(env: Env, log: AppContext['log']): Mailer {
   return {
     async sendPasswordReset({ to, token }) {
       if (env.isProduction) {
-        log.warn({ to }, 'Mailer não configurado: e-mail de redefinição NÃO foi enviado. Integre um provedor SMTP.');
+        // Sem o e-mail no log: dado pessoal em log de produção (LGPD, Art. 46)
+        log.warn('Mailer não configurado: e-mail de redefinição NÃO foi enviado. Integre um provedor SMTP.');
         return;
       }
       const origin = env.CORS_ORIGINS[0] ?? '';

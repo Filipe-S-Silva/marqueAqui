@@ -12,6 +12,8 @@ export function RegisterPage() {
   const { register } = useAuth();
   const nav = useNavigate();
   const [f, setF] = useState({ name: '', email: '', phone: '', password: '', confirm: '' });
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [isAdult, setIsAdult] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -23,7 +25,7 @@ export function RegisterPage() {
     if (f.password !== f.confirm) { setErrors({ confirm: 'As senhas não coincidem.' }); return; }
     setErrors({}); setBusy(true);
     try {
-      const p = await register({ name: f.name, email: f.email, ...(f.phone ? { phone: f.phone } : {}), password: f.password });
+      const p = await register({ name: f.name, email: f.email, ...(f.phone ? { phone: f.phone } : {}), password: f.password, acceptTerms, isAdult });
       nav(p.redirectTo, { replace: true }); // cadastro sempre cria cliente
     } catch (err) { setErrors(fieldErrors(err)); setError(errorMessage(err)); } finally { setBusy(false); }
   }
@@ -38,7 +40,17 @@ export function RegisterPage() {
         <Field label="Telefone (opcional)" error={errors.phone}><Input type="tel" autoComplete="tel" value={f.phone} onChange={set('phone')} /></Field>
         <Field label="Senha" error={errors.password} hint="Mínimo de 8 caracteres, com letra e número."><Input type="password" autoComplete="new-password" value={f.password} onChange={set('password')} required /></Field>
         <Field label="Confirmar senha" error={errors.confirm}><Input type="password" autoComplete="new-password" value={f.confirm} onChange={set('confirm')} required /></Field>
-        <Button type="submit" loading={busy}>Criar conta</Button>
+        <label className="flex items-start gap-2 text-sm">
+          <input type="checkbox" checked={isAdult} onChange={(e) => setIsAdult(e.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--primary)]" />
+          <span>Tenho 18 anos ou mais. <span className="text-muted-foreground">Menores de idade são agendados pela conta de um responsável.</span></span>
+        </label>
+        {errors.isAdult && <p role="alert" className="-mt-2 text-xs text-destructive">{errors.isAdult}</p>}
+        <label className="flex items-start gap-2 text-sm">
+          <input type="checkbox" checked={acceptTerms} onChange={(e) => setAcceptTerms(e.target.checked)} className="mt-0.5 size-4 shrink-0 accent-[var(--primary)]" />
+          <span>Li e aceito os <Link className="font-semibold text-primary hover:underline" to="/termos" target="_blank">Termos de Uso</Link> e a <Link className="font-semibold text-primary hover:underline" to="/privacidade" target="_blank">Política de Privacidade</Link>.</span>
+        </label>
+        {errors.acceptTerms && <p role="alert" className="-mt-2 text-xs text-destructive">{errors.acceptTerms}</p>}
+        <Button type="submit" loading={busy} disabled={!acceptTerms || !isAdult}>Criar conta</Button>
       </form>
     </AuthShell>
   );

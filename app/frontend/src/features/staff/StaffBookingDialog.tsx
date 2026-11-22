@@ -12,7 +12,8 @@ import { ApiError, api } from '@/lib/api';
 import { addDaysIso, brl, formatDate, todayInBrazil } from '@/lib/format';
 import type { Availability, ServiceItem, ShopServices } from '@/features/client/types';
 
-interface Lookup { id: number; name: string; photoUrl: string | null; phoneMasked: string; memberSince: string; previousAppointments: number }
+// Sem histórico na empresa, a API devolve só o primeiro nome (telefone e data vêm nulos)
+interface Lookup { id: number; name: string; photoUrl: string | null; phoneMasked: string | null; memberSince: string | null; previousAppointments: number }
 interface Props {
   shopId: number;
   /** Profissional: a própria agenda. Gestor: lista para escolher. */
@@ -127,6 +128,10 @@ export function StaffBookingDialog({ shopId, barbers, initialDate, onCreated }: 
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Nome"><Input value={name} maxLength={120} onChange={(e) => setName(e.target.value)} /></Field>
             <Field label="Telefone"><Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} /></Field>
+            <p className="text-xs text-muted-foreground sm:col-span-2">
+              Informe ao cliente: nome e telefone servem só para este agendamento e são apagados 3 meses após o atendimento.{' '}
+              <a className="font-semibold text-primary hover:underline" href="/privacidade" target="_blank" rel="noreferrer">Política de Privacidade</a>
+            </p>
           </div>
         ) : (
           <div className="grid gap-3">
@@ -140,8 +145,14 @@ export function StaffBookingDialog({ shopId, barbers, initialDate, onCreated }: 
                   <Avatar name={found.name} photoUrl={null} className="size-12" />
                   <div>
                     <p className="font-bold">{found.name}</p>
-                    <p className="text-muted-foreground">Tel.: {found.phoneMasked || 'não informado'}</p>
-                    <p className="text-muted-foreground">Cliente desde {formatDate(found.memberSince.slice(0, 10))} · {found.previousAppointments} atendimento(s) anteriores</p>
+                    {found.memberSince ? (
+                      <>
+                        <p className="text-muted-foreground">Tel.: {found.phoneMasked || 'não informado'}</p>
+                        <p className="text-muted-foreground">Cliente desde {formatDate(found.memberSince.slice(0, 10))} · {found.previousAppointments} atendimento(s) anteriores</p>
+                      </>
+                    ) : (
+                      <p className="text-muted-foreground">Primeiro atendimento nesta empresa. Confira o nome completo com o cliente.</p>
+                    )}
                   </div>
                 </div>
                 <label className="mt-3 flex items-center gap-2 font-semibold">

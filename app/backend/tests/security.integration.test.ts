@@ -33,7 +33,7 @@ suite('APP: segurança (integração)', () => {
     close = handle.close;
     app = await buildApp({ db: handle.db, env, limiters: createLimiters() }, { logger: false });
     await app.ready();
-    const reg = await app.inject({ method: 'POST', url: '/auth/register', payload: { name: 'Cliente A', email: mail('a'), password: PASSWORD } });
+    const reg = await app.inject({ method: 'POST', url: '/auth/register', payload: { name: 'Cliente A', email: mail('a'), password: PASSWORD, acceptTerms: true, isAdult: true } });
     assert.equal(reg.statusCode, 201, reg.body);
     const login = await app.inject({ method: 'POST', url: '/auth/login', payload: { email: mail('a'), password: PASSWORD } });
     assert.equal(login.statusCode, 200, login.body);
@@ -90,7 +90,7 @@ suite('APP: segurança (integração)', () => {
   });
 
   it('cadastro ignora/rejeita campos privilegiados (mass assignment)', async () => {
-    const r = await app.inject({ method: 'POST', url: '/auth/register', payload: { name: 'Mal Intencionado', email: mail('mass'), password: PASSWORD, role: 'MANAGER', active: true, isAdmin: true } });
+    const r = await app.inject({ method: 'POST', url: '/auth/register', payload: { name: 'Mal Intencionado', email: mail('mass'), password: PASSWORD, acceptTerms: true, isAdult: true, role: 'MANAGER', active: true, isAdmin: true } });
     if (r.statusCode === 201) {
       const l = await app.inject({ method: 'POST', url: '/auth/login', payload: { email: mail('mass'), password: PASSWORD } });
       assert.equal(l.json().data.user?.role ?? 'CLIENT', 'CLIENT');
@@ -145,7 +145,7 @@ suite('APP: segurança (integração)', () => {
 
   it('bloqueio de conta: após 5 senhas erradas nem a senha correta entra (e a resposta não revela o bloqueio)', async () => {
     const email = mail('lock');
-    assert.equal((await app.inject({ method: 'POST', url: '/auth/register', payload: { name: 'Cliente Lock', email, password: PASSWORD } })).statusCode, 201);
+    assert.equal((await app.inject({ method: 'POST', url: '/auth/register', payload: { name: 'Cliente Lock', email, password: PASSWORD, acceptTerms: true, isAdult: true } })).statusCode, 201);
     for (let i = 0; i < 5; i++) await app.inject({ method: 'POST', url: '/auth/login', payload: { email, password: `errada-${i}-xxxx` } });
     const right = await app.inject({ method: 'POST', url: '/auth/login', payload: { email, password: PASSWORD } });
     assert.ok([401, 429].includes(right.statusCode), String(right.statusCode));

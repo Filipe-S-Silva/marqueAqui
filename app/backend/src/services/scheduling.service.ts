@@ -310,6 +310,12 @@ export async function lookupClient(ctx: AppContext, auth: AuthContext, email: st
   if (!user || user.role !== 'CLIENT' || !user.active) {
     throw notFound('Nenhum cliente encontrado com este e-mail.', 'CLIENT_NOT_FOUND');
   }
+  const previousAppointments = await repo.countCompletedForClientInShop(ctx.db, user.id, auth.shopId);
+  await writeAudit(ctx.db, { actorType: 'USER', actorId: auth.userId, action: 'client.lookup', entityType: 'user', entityId: user.id, metadata: { shopId: auth.shopId } });
+  // Necessidade (LGPD, Art. 6º, III): empresa sem histórico com o cliente vê só o primeiro nome
+  if (!previousAppointments) {
+    return { id: user.id, name: user.name.split(' ')[0] ?? '', photoUrl: null, phoneMasked: null, memberSince: null, previousAppointments };
+  }
   // Dados mínimos para o cartão de conferência (spec 6.4): telefone mascarado, sem e-mail completo
   return {
     id: user.id,
@@ -317,7 +323,7 @@ export async function lookupClient(ctx: AppContext, auth: AuthContext, email: st
     photoUrl: user.photoUrl,
     phoneMasked: maskPhone(user.phone),
     memberSince: user.createdAt,
-    previousAppointments: await repo.countCompletedForClientInShop(ctx.db, user.id, auth.shopId),
+    previousAppointments,
   };
 }
 

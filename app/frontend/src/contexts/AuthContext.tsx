@@ -15,7 +15,7 @@ interface AuthState {
 
 interface AuthCtx extends AuthState {
   login: (email: string, password: string, portal?: Portal) => Promise<SessionPayload>;
-  register: (input: { name: string; email: string; phone?: string; password: string }) => Promise<SessionPayload>;
+  register: (input: { name: string; email: string; phone?: string; password: string; acceptTerms: boolean; isAdult: boolean }) => Promise<SessionPayload>;
   logout: () => Promise<void>;
   reload: () => Promise<void>;
   selectShop: (shopId: number) => Promise<void>;
@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return p;
   }, []);
 
-  const register = useCallback(async (input: { name: string; email: string; phone?: string; password: string }) => {
+  const register = useCallback(async (input: { name: string; email: string; phone?: string; password: string; acceptTerms: boolean; isAdult: boolean }) => {
     const p = await api.post<SessionPayload>('/auth/register', input, { auth: false });
     setAccessToken(p.accessToken);
     setState(fromPayload(p));

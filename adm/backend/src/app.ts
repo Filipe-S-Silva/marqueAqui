@@ -16,7 +16,7 @@ export const createLimiters = (store: RateStore = createMemoryStore()): Limiters
 
 export async function buildApp(base: { db: Database; env: Env; limiters: Limiters }, opts: { logger?: boolean } = {}): Promise<FastifyInstance> {
   const app = Fastify({
-    logger: opts.logger === false ? false : { level: base.env.LOG_LEVEL, redact: ['req.headers.authorization'] },
+    logger: opts.logger === false ? false : { level: base.env.LOG_LEVEL, redact: ['req.headers.authorization', 'req.headers.cookie'] },
     trustProxy: base.env.TRUST_PROXY,
     bodyLimit: 1024 * 1024, // logos em data URL de até ~400 KB
   });

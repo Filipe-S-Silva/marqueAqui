@@ -115,6 +115,9 @@ export const users = pgTable(
     // Bloqueio por senhas erradas (contador atômico em lockout.ts)
     failedLoginAttempts: integer('failed_login_attempts').notNull().default(0),
     lockedUntil: timestamp('locked_until', { withTimezone: true }),
+    // Prova do aceite dos Termos e da Política (versão vigente no cadastro) e da declaração de maioridade
+    termsVersion: varchar('terms_version', { length: 20 }),
+    termsAcceptedAt: timestamp('terms_accepted_at', { withTimezone: true }),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
